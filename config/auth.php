@@ -1,5 +1,4 @@
 <?php
-
 return [
 
     /*
@@ -17,6 +16,11 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
+    'admin'=> [
+        'driver'=>'eloquent',
+            'model'=>App\Models\User::class,
+        ],
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +43,10 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
         ],
     ],
 
@@ -63,6 +71,13 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+        'session' => [
+            'driver' => 'session',
         ],
 
         // 'users' => [
@@ -96,6 +111,10 @@ return [
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'admins'=> [
+            'deriver'=> 'eloquent',
+            'model'=> App\Models\User::class,
         ],
     ],
 

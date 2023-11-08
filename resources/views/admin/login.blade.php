@@ -21,7 +21,7 @@
 			  	</div>
 			  	<div class="card-body">
 					<p class="login-box-msg">Sign in to start your session</p>
-					<form action="{{route('admin.authenticate')}}" method="post">
+					{{-- <form action="{{route('admin.authenticate')}}" method="post"> --}}
 						@csrf
 						@if(Session::get('fail'))
 							<div class="alert alert-danger">
