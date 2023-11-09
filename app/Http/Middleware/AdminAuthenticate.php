@@ -10,14 +10,17 @@ class AdminAuthenticate extends Middleware
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
-    protected function redirectTo(Request $request): ?string
+    protected function redirectTo($request)
     {
         return $request->expectsJson() ? null : route('admin.login');
     }
-    protected function authenticate(Request $request, array $guards){
-        if($this->auth->guard('admin')->check()){
+
+    protected function authenticate($request, array $guards)
+    {
+        if ($this->auth->guard('admin')->check()) {
             return $this->auth->shouldUse('admin');
         }
-        $this->unauthenticated($request, ['admin']);
+
+        $this->unauthenticated($request, $guards);
     }
 }

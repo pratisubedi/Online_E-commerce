@@ -15,13 +15,14 @@
 	<body class="hold-transition login-page">
 		<div class="login-box">
 			<!-- /.login-logo -->
+			@include('/admin.message')
 			<div class="card card-outline card-primary">
 			  	<div class="card-header text-center">
 					<a href="#" class="h3">Administrative Panel</a>
 			  	</div>
 			  	<div class="card-body">
 					<p class="login-box-msg">Sign in to start your session</p>
-					{{-- <form action="{{route('admin.authenticate')}}" method="post"> --}}
+					<form action="{{route('admin.authenticate')}}" method="post">
 						@csrf
 						@if(Session::get('fail'))
 							<div class="alert alert-danger">
@@ -29,12 +30,8 @@
 							</div>
 						@endif
 				  		<div class="input-group mb-3">
-							@error('login_id')
-								<div class="d-block text-danger">
-									{{$message}}
-								</div>
-							@enderror
-							<input name="login_id" type="email" class="form-control" placeholder="Email" value="{{old('login_id')}}">
+							
+							<input name="email" type="email" class="form-control" placeholder="Email" value="{{old('email')}}">
 							<div class="input-group-append">
 					  			<div class="input-group-text">
 									<span class="fas fa-envelope"></span>
@@ -42,6 +39,11 @@
 							</div>
 							
 				  		</div>
+						  @error('email')
+							<div class="d-block text-danger invalid-feedback">
+								{{$message}}
+							</div>
+					  		@enderror
 				  		<div class="input-group mb-3">
 							<input name="password" type="password" class="form-control" placeholder="Password">
 							<div class="input-group-append">
@@ -49,12 +51,12 @@
 									<span class="fas fa-lock"></span>
 					  			</div>
 							</div>
-							@error('password')
-								<div class="d-block text-danger">
-									{{$message}}
-								</div>
-							@enderror
 				  		</div>
+						  @error('password')
+						  <div class="d-block text-danger invalid-feedback">
+							  {{$message}}
+						  </div>
+					  @enderror
 				  		<div class="row">
 							<!-- <div class="col-8">
 					  			<div class="icheck-primary">
