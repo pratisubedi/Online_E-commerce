@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminLoginController;
+use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,9 @@ Route::group(['prefix'=> 'admin'], function () {
         //Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('admin.authenticate');
         Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
         Route::get('/logout',[HomeController::class,'logout'])->name('admin.logout');
+        //categor routes
+        Route::get('/categories/create',[categoryController::class,'create'])->name('categories.create');
+        Route::post('/categories',[categoryController::class,'store'])->name('categories.store');
     });
 
 });
