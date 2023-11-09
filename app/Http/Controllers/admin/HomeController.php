@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index(){
-        $admin=Auth::guard()->user();
-        echo"Welcome  ".$admin->name.'<a herf="'.route('admin.logout').'"> Logout</a>';
+        return view('admin.dashboard');
+        // $admin=Auth::guard()->user();
+        // echo"Welcome  ".$admin->name.'<a herf="'.route('admin.logout').'"> Logout</a>';
     }
 
     public function logout(){
