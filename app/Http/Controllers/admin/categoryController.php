@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use Validator;
 
 class categoryController extends Controller
@@ -22,9 +23,14 @@ class categoryController extends Controller
         ]);
 
         if($validator->passes()){
-
+            $category = new Category();
+            $category->name = $request->name;
+            $category->slug = $request->slug;
+            $category->save();
+            return back()->with('success','product was successfully created  ');
         }else{
-            return response()->json([
+            //return back()->withErrors($validator);
+            response()->json([
                 'status'=> false,
                 'errors'=>$validator->errors()
             ]);
