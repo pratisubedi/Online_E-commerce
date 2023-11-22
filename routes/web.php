@@ -4,7 +4,7 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\HomeController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,8 +39,8 @@ Route::group(['prefix'=> 'admin'], function () {
 
         Route::get('/getSlug',function(Request $request){
                 $slug='';
-                if(!empty($request->tittle )){
-                    $slug=Str::slug($request->tittle);
+                if(!empty($request->title )){
+                    $slug=Str::slug($request->title);
                 }
                 //return back()->with($slug); 
                 return response()->json([

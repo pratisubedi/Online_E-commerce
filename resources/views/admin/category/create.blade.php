@@ -19,6 +19,7 @@
     <section class="content">
         <!-- Default box -->
         <div class="container-fluid">
+            {{-- <form action="" id="categoryForm" name="categoryForm" method="POST"> --}}
             <form action="{{route('categories.store')}}" id="categoryForm" name="categoryForm" method="POST">
                 {{-- id="categoryForm" name="categoryForm" {{route('categories.store')}} --}}
                 @csrf
@@ -42,7 +43,7 @@
                                     <label for="slug">Slug</label>
                                     <input type="text"  name="slug" id="slug" class="form-control" placeholder="Slug" value="{{old('slug')}}">
                                     <p></p>
-                                    @error('name')
+                                    @error('slug')
                                         <div class="d-block text-danger invalid-feedback">
                                             {{$message}}
                                         </div>
@@ -75,7 +76,9 @@
 
 @section('customjs')
 <script>
-    // //$(document).ready(function() {
+    $(document).ready(function() {
+        $('#slug').val("My value");
+    });
         $("#categoryForm").submit(function(event) {
             event.preventDefault();
             var element = $(this);
@@ -112,18 +115,19 @@
         });
 
         $("#name").change(function(){
-            var element = $(this);
-            $.ajax({
-                url: '{{ route("getSlug") }}',
-                type: 'get',
-                data: {title: element.val()},
-                dataType: 'json',
-                success: function(response){
-                    if(response["stats"] == true){
-                        $('#slug').val(response["slug"]);
-                    }
-                }
-            });
+            // var element = $(this);
+            // $.ajax({
+            //     url: '{{ route("getSlug") }}',
+            //     type: 'get',
+            //     data: {title: element.val()},
+            //     dataType: 'json',
+            //     success: function(response){
+            //         if(response["stats"] == true){
+            //             $('#slug').val(response["slug"]);
+            //         }
+            //     }
+            // });
+            // document.getElementById("slug").value = "My value";
         });
 
     // // });
