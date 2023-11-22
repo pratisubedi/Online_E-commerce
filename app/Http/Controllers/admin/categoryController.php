@@ -29,13 +29,14 @@ class categoryController extends Controller
             $category->save();
             return back()->with('success','product was successfully created  ');
         }else{
-            //return back()->withErrors($validator);
-            response()->json([
-                'status'=> false,
-                'errors'=>$validator->errors()
-            ]);
+            return back()->withErrors($validator);
+            // response()->json([
+            //     'status'=> false,
+            //     'errors'=>$validator->errors()
+            // ]);
         }
     }
+
     public function edit(){
         
     }

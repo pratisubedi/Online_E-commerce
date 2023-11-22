@@ -7,9 +7,10 @@
 		<!-- Google Font: Source Sans Pro -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="/admin-assets/plugins/fontawesome-free/css/all.min.css">
-		<!-- Theme style -->
+		{{-- <link rel="stylesheet" href="/admin-assets/plugins\fontawesome-free\css\all.min.css">
+		<!-- Theme style --> --}}
 		<link rel="stylesheet" href="/admin_assets/css/adminlte.min.css">
+		
 		<link rel="stylesheet" href="/admin_assets/css/custom.css">
 		<meta name="csrf-token" content="{{csrf_token()}}">
 	</head>
@@ -79,8 +80,8 @@
 		<script src="/admin_assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<!-- AdminLTE App -->
 		<script src="/admin_assets/js/adminlte.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<!-- AdminLTE for demo purposes -->
-		<script src="js/demo.js"></script>
 		<script type="text/javascript">
 			$.ajaxSetup({
 				headers: {

@@ -19,7 +19,7 @@
     <section class="content">
         <!-- Default box -->
         <div class="container-fluid">
-            <form action="{{route('categories.store')}}" method="POST">
+            <form action="{{route('categories.store')}}" id="categoryForm" name="categoryForm" method="POST">
                 {{-- id="categoryForm" name="categoryForm" {{route('categories.store')}} --}}
                 @csrf
                 <div class="card">
@@ -40,7 +40,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="slug">Slug</label>
-                                    <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug" value="{{old('slug')}}">
+                                    <input type="text"  name="slug" id="slug" class="form-control" placeholder="Slug" value="{{old('slug')}}">
                                     <p></p>
                                     @error('name')
                                         <div class="d-block text-danger invalid-feedback">
@@ -74,40 +74,60 @@
 @endsection
 
 @section('customjs')
-    <script>
-        $("#categoryForm").submit(function(event){
+<script>
+    // //$(document).ready(function() {
+        $("#categoryForm").submit(function(event) {
             event.preventDefault();
-            var element=$(this);
+            var element = $(this);
             $.ajax({
-                url:'{{route("categories.store")}}',
-                type:'post',
-                data:element.serializeArray(x),
-                dataType:'json',
-                success:function(response){
-                var errors=response['errors'];
-                if(errors['name']){
-                    $("#name").addClass('is-invalid')
-                    .siblings('p')
-                    .addClass('invalid-feedback').html(errors['name']);
-                }else{
-                    $("#name").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback').html('');
-                }
-                if(errors['slug']){
-                    $("#slug").addClass('is-invalid')
-                    .siblings('p')
-                    .addClass('invalid-feedback').html(errors['slug']);
-                }else{
-                    $("#slug").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback').html('');
-                }
+                url: '{{route("categories.store")}}',
+                type: 'post',
+                data: element.serializeArray(),
+                dataType: 'json',
+                success: function(response) {
+                    var errors = response['errors'];
+                    if (errors['name']) {
+                        $("#name").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback').html(errors['name']);
+                    } else {
+                        $("#name").removeClass('is-invalid')
+                            .siblings('p')
+                            .removeClass('invalid-feedback').html('');
+                    }
+                    if (errors['slug']) {
+                        $("#slug").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback').html(errors['slug']);
+                    } else {
+                        $("#slug").removeClass('is-invalid')
+                            .siblings('p')
+                            .removeClass('invalid-feedback').html('');
+                    }
                 },
-                error:function(jqXHR,exception){
-                console.log("something went wrong");
+                error: function(jqXHR, exception) {
+                    console.log("Something went wrong");
                 }
-            })
             });
-    </script>
+        });
+
+        $("#name").change(function(){
+            var element = $(this);
+            $.ajax({
+                url: '{{ route("getSlug") }}',
+                type: 'get',
+                data: {title: element.val()},
+                dataType: 'json',
+                success: function(response){
+                    if(response["stats"] == true){
+                        $('#slug').val(response["slug"]);
+                    }
+                }
+            });
+        });
+
+    // // });
+</script>
 @endsection
+
+

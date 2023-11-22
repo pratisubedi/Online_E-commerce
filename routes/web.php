@@ -33,6 +33,21 @@ Route::group(['prefix'=> 'admin'], function () {
         //categor routes
         Route::get('/categories/create',[categoryController::class,'create'])->name('categories.create');
         Route::post('/categories/store',[categoryController::class,'store'])->name('categories.store');
+
+
+
+
+        Route::get('/getSlug',function(Request $request){
+                $slug='';
+                if(!empty($request->tittle )){
+                    $slug=Str::slug($request->tittle);
+                }
+                //return back()->with($slug); 
+                return response()->json([
+                    'status'=>true,
+                    'slug'=>$slug
+                ]);
+        })->name('getSlug');
     });
 
 });
