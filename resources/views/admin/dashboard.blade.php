@@ -65,5 +65,6 @@
 @endsection
 
 @section('customjs')
+@stack('js')
     
 @endsection

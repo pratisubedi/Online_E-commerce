@@ -81,6 +81,7 @@
 		<!-- AdminLTE App -->
 		<script src="/admin_assets/js/adminlte.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		@yield('customejs')
 		<!-- AdminLTE for demo purposes -->
 		<script type="text/javascript">
 			$.ajaxSetup({
@@ -88,7 +89,8 @@
 					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				}
 			});
+			
 	</script>
-        @yield('costumjs')
+        
 	</body>
 </html>

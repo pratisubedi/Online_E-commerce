@@ -10,7 +10,7 @@ use Validator;
 class categoryController extends Controller
 {
     public function index(){
-
+        $categories =Category::latest()->paginate(5);
     }
 
     public function create(){

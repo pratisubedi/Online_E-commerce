@@ -19,9 +19,7 @@
     <section class="content">
         <!-- Default box -->
         <div class="container-fluid">
-            {{-- <form action="" id="categoryForm" name="categoryForm" method="POST"> --}}
-            <form action="{{route('categories.store')}}" id="categoryForm" name="categoryForm" method="POST">
-                {{-- id="categoryForm" name="categoryForm" {{route('categories.store')}} --}}
+            <form action="{{ route('categories.store') }}" id="categoryForm" name="categoryForm" method="POST">
                 @csrf
                 <div class="card">
                     <div class="card-body">								
@@ -29,11 +27,11 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{old('name')}}">
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ old('name') }}">
                                     <p></p>
                                     @error('name')
                                         <div class="d-block text-danger invalid-feedback">
-                                            {{$message}}
+                                            {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
@@ -41,11 +39,11 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="slug">Slug</label>
-                                    <input type="text"  name="slug" id="slug" class="form-control" placeholder="Slug" value="{{old('slug')}}">
+                                    <input type="text"  name="slug" id="slug" readonly class="form-control" placeholder="Slug" value="{{ old('slug') }}">
                                     <p></p>
                                     @error('slug')
                                         <div class="d-block text-danger invalid-feedback">
-                                            {{$message}}
+                                            {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
@@ -53,7 +51,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control" value="{{old('status')}}">
+                                    <select name="status" id="status" class="form-control" value="{{ old('status') }}">
                                         <option value="1">Active</option>
                                         <option value="0">Block</option>
                                     </select>
@@ -71,67 +69,61 @@
         <!-- /.card -->
     </section>
     <!-- /.content -->
-
 @endsection
-
-@section('customjs')
+@section('customejs')
 <script>
     $(document).ready(function() {
-        $('#slug').val("My value");
-    });
-        $("#categoryForm").submit(function(event) {
-            event.preventDefault();
-            var element = $(this);
+        // $("#categoryForm").submit(function(event) {
+        //     event.preventDefault();
+        //     var element = $(this);
+        //     $.ajax({
+        //         url: '{{ route("categories.store") }}', // Update URL if needed
+        //         type: 'post',
+        //         data: element.serializeArray(),
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             var errors = response['errors'];
+        //             if (errors['name']) {
+        //                 $("#name").addClass('is-invalid')
+        //                     .siblings('p')
+        //                     .addClass('invalid-feedback').html(errors['name']);
+        //             } else {
+        //                 $("#name").removeClass('is-invalid')
+        //                     .siblings('p')
+        //                     .removeClass('invalid-feedback').html('');
+        //             }
+        //             if (errors['slug']) {
+        //                 $("#slug").addClass('is-invalid')
+        //                     .siblings('p')
+        //                     .addClass('invalid-feedback').html(errors['slug']);
+        //             } else {
+        //                 $("#slug").removeClass('is-invalid')
+        //                     .siblings('p')
+        //                     .removeClass('invalid-feedback').html('');
+        //             }
+        //         },
+        //         error: function(jqXHR, exception) {
+        //             console.log("Something went wrong");
+        //         }
+        //     });
+        // });
+
+       $('#name').change(function(){
+            element=$(this);
             $.ajax({
-                url: '{{route("categories.store")}}',
-                type: 'post',
-                data: element.serializeArray(),
-                dataType: 'json',
-                success: function(response) {
-                    var errors = response['errors'];
-                    if (errors['name']) {
-                        $("#name").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['name']);
-                    } else {
-                        $("#name").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
+                url:'{{route("getSlug")}}',
+                type:'get',
+                data:{title: element.val()},
+                dataType:'json',
+                success:function(response){
+                    if(response["status"]==true){
+                        $("#slug").val(response["slug"]);
                     }
-                    if (errors['slug']) {
-                        $("#slug").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['slug']);
-                    } else {
-                        $("#slug").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
-                },
-                error: function(jqXHR, exception) {
-                    console.log("Something went wrong");
                 }
             });
-        });
-
-        $("#name").change(function(){
-            // var element = $(this);
-            // $.ajax({
-            //     url: '{{ route("getSlug") }}',
-            //     type: 'get',
-            //     data: {title: element.val()},
-            //     dataType: 'json',
-            //     success: function(response){
-            //         if(response["stats"] == true){
-            //             $('#slug').val(response["slug"]);
-            //         }
-            //     }
-            // });
-            // document.getElementById("slug").value = "My value";
-        });
-
-    // // });
+       });
+    });
 </script>
 @endsection
-
+    
 
