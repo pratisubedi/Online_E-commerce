@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="image">Image</label>
+                                    <label for="image" id="image">Image</label>
                                     <div class="dropzone dz-clickable" id="image">
                                         <div class="dz-message needsclick">
                                             <br>Drop files here or click to upload. <br><br>
@@ -133,26 +133,7 @@
             });
        });
 
-       Dropzone.autoDiscover=false;
-       const dropzone=$("#image").dropzone({
-            init:function(){
-                this.on('addfile',function(file){
-                    if(this.file.length>1){
-                        this.removeFile(this.files[0]);
-                    }
-                });
-            },
-            url: "{{route('temp-image.create')}}",
-            maxFiles:1,
-            paramName='image',
-            addRemoveLinks:true,
-            acceptedFiles:"image/jpeg,image/png,image/gif",
-            headers:{
-                'X-CSRF-TOKEN':$('meta[name="_token"]').attr('content')
-            },success:function(file,response){
-                $("#image_id").val(response.image_id);
-            }
-       })
+    
     });
 </script>
 @endsection
