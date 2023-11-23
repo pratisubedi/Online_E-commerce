@@ -37,7 +37,8 @@ Route::group(['prefix'=> 'admin'], function () {
 
 
 
-
+        //temp-image.create
+        Route::post('/upload-temp-image',[categoryController::class,'store'])->name('temp-image.create');
         Route::get('/getSlug',function(Request $request){
                 $slug='';
                 if(!empty($request->title )){
