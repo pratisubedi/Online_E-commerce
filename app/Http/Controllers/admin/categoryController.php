@@ -9,8 +9,12 @@ use Validator;
 
 class categoryController extends Controller
 {
-    public function index(){
-        $categories =Category::latest()->paginate(5);
+    public function index(Request $request){
+        $categories=Category::latest();
+        if(!empty($request->get('keyword'))){
+            $categories=$categories->where('name','like','%'.$request->get('keyword').'%');
+        }
+        $categories =$categories->paginate(5);
         return view('admin.category.list',compact('categories'));
     }
 
@@ -28,7 +32,8 @@ class categoryController extends Controller
             $category->name = $request->name;
             $category->slug = $request->slug;
             $category->save();
-            return back()->with('success','product was successfully created  ');
+            return redirect()->route('categories.index')->with('success','product was successfully created  ');
+            //return back()->with('success','product was successfully created  ');
         }else{
             return back()->withErrors($validator);
             // response()->json([
