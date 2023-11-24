@@ -99,6 +99,28 @@
     </div>
     <!-- /.card -->
 </section>
+<script>
+    function deleteCategory(id){
+        var url='{{route("categories.delete","ID")}}';
+        var newUrl=url.replace("ID",id);
+        if(confirm("Are you sur you want to delete")){
+            $.ajax({
+                url:newUrl,
+                type:'delete',
+                data:{},
+                dataType:'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(response){
+                    if(response["status"]){
+                        window.location.href="{{route('categories.index')}}";
+                    }
+                }
+            });
+        }
+    }
+</script>
 @endsection
 
 @section('customjs')
@@ -106,16 +128,22 @@
     function deleteCategory(id){
         var url='{{route("categories.delete","ID")}}';
         var newUrl=url.replace("ID",id);
-        alert(newUrl);
-        $.ajax({
-            url:,
-            type:'put',
-            data:element.serializeArray(),
-            dataType:'json',
-            success:function(response){
-                $
-            }
-        });
+        if(confirm("Are you sur you want to delete")){
+            $.ajax({
+                url:newUrl,
+                type:'delete',
+                data:{},
+                dataType:'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(response){
+                    if(response["status"]){
+                        window.location.href="{{route('categories.index')}}";
+                    }
+                }
+            });
+        }
     }
 </script>
 @endsection

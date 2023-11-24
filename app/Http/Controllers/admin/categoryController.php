@@ -124,7 +124,12 @@ class categoryController extends Controller
     public function destroy($categoryid, Request $request){
         $category=Category::find($categoryid);
         if(empty($category)){
-            return redirect()->route('categories.index');
+            $request->session()->flash('error','category not found');
+            return response()->json([
+                'status'=>true,
+                'message'=>'category not found'
+            ]);
+            //return redirect()->route('categories.index');
         }
 
 

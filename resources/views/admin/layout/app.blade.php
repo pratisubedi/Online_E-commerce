@@ -84,6 +84,7 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="/admin_assets/plugins/dropzone/min/dropzone.min.js"></script>
 		@yield('customejs')
+
 		<!-- AdminLTE for demo purposes -->
 		<script type="text/javascript">
 			$.ajaxSetup({
