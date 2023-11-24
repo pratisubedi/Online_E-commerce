@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TempImage;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Validator;
+use Illuminate\Support\Facades\File;
+use Image;
+use GdImage;
 
 class categoryController extends Controller
 {
@@ -32,6 +36,26 @@ class categoryController extends Controller
             $category->name = $request->name;
             $category->slug = $request->slug;
             $category->save();
+            if(!empty($request->image_id)){
+                $tempImage= TempImage::find($request->image_id);
+                $extArray=explode('.',$tempImage->name);
+                $ext=last($extArray);
+
+                $newImageName=$category->id.'.'.$ext;
+                $sPath=public_path().'/temp/'.$tempImage->name;
+                $dPath=public_path().'/upload/category/'.$newImageName;
+                File::copy($sPath,$dPath);
+                $category->image =$newImageName;
+                $category->save();
+
+                //Generate Image ThumNail
+                $dPath=public_path().'/upload/category/thumnail/'.$newImageName;
+                $img=Image::make($sPath);
+                $img->resize(450,600);
+                $img->save($dPath);
+
+            }
+
             return redirect()->route('categories.index')->with('success','product was successfully created  ');
             //return back()->with('success','product was successfully created  ');
         }else{

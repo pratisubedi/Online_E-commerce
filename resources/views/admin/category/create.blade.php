@@ -50,6 +50,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <input type="hidden" id="image_id" name="image_id" value="">
                                     <label for="image" id="image">Image</label>
                                     <div class="dropzone dz-clickable" id="image">
                                         <div class="dz-message needsclick">
@@ -81,8 +82,31 @@
     <!-- /.content -->
 @endsection
 @section('customejs')
+
 <script>
+Dropzone.autoDiscover = false;
     $(document).ready(function() {
+    const dropzone = new Dropzone("#image", {
+        init: function() {
+            this.on('addedfile', function(file) {
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+            });
+        },
+        url: "{{ route('temp-image.create') }}",
+        maxFiles: 1,
+        paramName: 'image',
+        addRemoveLinks: true,
+        acceptedFile: "image/jpeg,image/png,image/gif",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(file, response) {
+            $("#image_id").val(response.image_id);
+            console.log(response);
+        }
+    });
         // $("#categoryForm").submit(function(event) {
         //     event.preventDefault();
         //     var element = $(this);
@@ -117,7 +141,6 @@
         //         }
         //     });
         // });
-
        $('#name').change(function(){
             element=$(this);
             $.ajax({
