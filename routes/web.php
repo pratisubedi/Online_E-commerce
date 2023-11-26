@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -40,6 +41,11 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::delete('/categories/{category}',[categoryController::class,'destroy'])->name('categories.delete');
 
 
+        //Subcategory routes
+        Route::get('/sub-categories/create',[sub_category::class,'create'])->name('sub-categories.create');
+        Route::post('/sub-categories/store',[sub_category::class,'store'])->name('sub-categories.store');
+        Route::get('/sub-categories',[sub_category::class,'index'])->name('sub-categories.index');
+        Route::get('/sub-categories/{category}/edit',[sub_category::class,'edit'])->name('sub-categories.edit');
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');
