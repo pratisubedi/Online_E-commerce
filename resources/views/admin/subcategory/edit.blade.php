@@ -49,7 +49,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="email">Slug</label>
-                                    <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="Slug" value="{{$subcategory->slug}}">
+                                    <input  type="text" name="slug" id="slug" class="form-control" placeholder="Slug" value="{{$subcategory->slug}}">
                                     <p></p>	
                                 </div>
                                 
@@ -69,7 +69,7 @@
                     </div>							
                 </div>
                 <div class="pb-5 pt-3">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                     <a href="subcategory.html" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
             </form>
@@ -83,19 +83,15 @@
             event.preventDefault();
             var element = $(this);
             $.ajax({
-                url: '{{ route("sub-categories.store") }}', // Update URL if needed
-                type: 'post',
+                url: '{{ route("sub-categories.update",$subcategory->id) }}', // Update URL if needed
+                type: 'put',
                 data: element.serializeArray(),
                 dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                 },
                 success: function(response) {
-                    var errors = response['errors'];
                     if(response["status"]==true){
-                        window.location.href="{{route('sub-categories.index')}}"
-                        //window.location.href="{{route('categories.index')}}";
+                        window.location.href="{{route('sub-categories.index')}}";
                     }
+                    var errors = response['errors'];
                     if (errors['name']) {
                         $("#name").addClass('is-invalid')
                             .siblings('p')
@@ -123,13 +119,13 @@
                             .siblings('p')
                             .removeClass('invalid-feedback').html('');
                     }
+                    
                 },
                 error: function(jqXHR, exception) {
-                        console.log("AJAX Error: ", jqXHR, exception);
-                    }
-
+                    console.log("Something went wrong");
+                }
             });
-        });
+        }); 
     $('#name').change(function(){
             element=$(this);
             $.ajax({

@@ -67,4 +67,40 @@ class sub_category extends Controller
         $data['subcategory']=$subcategory;
         return view('admin.subcategory.edit',$data);
     }
+
+    public function update($id, Request $request){
+        $sub_category= SubCategory::find($id);
+        if(empty($sub_category)){
+            return response()->json([
+                'status'=>false,
+                'message'=>'id not found'
+            ]);
+        }
+        $validator =validator::make($request->all(),[
+            'name'=>'required',
+            'slug'=>'required|unique:sub_categories,slug,'.$sub_category->id.',id',
+            //'slug'=>'required|unique:sub_categories',
+            'category'=>'required',
+            'status'=>'required'
+        ]);
+        if($validator->passes()){
+            $subCategory= new SubCategory();
+            $subCategory->name=$request->name;
+            $subCategory->slug=$request->slug;
+            $subCategory->status=$request->status;
+            $subCategory->category_id=$request->category;
+            $subCategory->save();
+            $request->session()->flash('success','sub category created success');
+            
+            return response()->json([
+                'status'=>true,
+                'message'=>'sub category created success'
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'errors'=>$validator->errors()
+            ]);
+        }
+    }
 }

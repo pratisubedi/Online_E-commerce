@@ -46,7 +46,7 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::post('/sub-categories/store',[sub_category::class,'store'])->name('sub-categories.store');
         Route::get('/sub-categories',[sub_category::class,'index'])->name('sub-categories.index');
         Route::get('/sub-categories/{category}/edit',[sub_category::class,'edit'])->name('sub-categories.edit');
-
+        Route::put('/sub-categories/{category}',[sub_category::class,'update'])->name('sub-categories.update');
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');
         Route::get('/getSlug',function(Request $request){
