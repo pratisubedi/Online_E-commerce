@@ -70,7 +70,7 @@
                 </div>
                 <div class="pb-5 pt-3">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="subcategory.html" class="btn btn-outline-dark ml-3">Cancel</a>
+                    <a href="{{route('sub-categories.index')}}" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
             </form>
         </div>
@@ -90,36 +90,40 @@
                 success: function(response) {
                     if(response["status"]==true){
                         window.location.href="{{route('sub-categories.index')}}";
+                    }else{
+                        if(response['notFound']==true){
+                            window.location.href="{{route('sub-categories.index')}}";
+                            reurn false;
+                        }
+                        var errors = response['errors'];
+                        if (errors['name']) {
+                            $("#name").addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback').html(errors['name']);
+                        } else {
+                            $("#name").removeClass('is-invalid')
+                                .siblings('p')
+                                .removeClass('invalid-feedback').html('');
+                        }
+                        if (errors['slug']) {
+                            $("#slug").addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback').html(errors['slug']);
+                        } else {
+                            $("#slug").removeClass('is-invalid')
+                                .siblings('p')
+                                .removeClass('invalid-feedback').html('');
+                        }
+                        if (errors['category']) {
+                            $("#category").addClass('is-invalid')
+                                .siblings('p')
+                                .addClass('invalid-feedback').html(errors['category']);
+                        } else {
+                            $("#category").removeClass('is-invalid')
+                                .siblings('p')
+                                .removeClass('invalid-feedback').html('');
+                        }
                     }
-                    var errors = response['errors'];
-                    if (errors['name']) {
-                        $("#name").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['name']);
-                    } else {
-                        $("#name").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
-                    if (errors['slug']) {
-                        $("#slug").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['slug']);
-                    } else {
-                        $("#slug").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
-                    if (errors['category']) {
-                        $("#category").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['category']);
-                    } else {
-                        $("#category").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
-                    
                 },
                 error: function(jqXHR, exception) {
                     console.log("Something went wrong");

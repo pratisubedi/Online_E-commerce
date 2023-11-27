@@ -73,7 +73,8 @@ class sub_category extends Controller
         if(empty($sub_category)){
             return response()->json([
                 'status'=>false,
-                'message'=>'id not found'
+                'message'=>'id not found',
+                'notFound'=>true
             ]);
         }
         $validator =validator::make($request->all(),[
@@ -102,5 +103,22 @@ class sub_category extends Controller
                 'errors'=>$validator->errors()
             ]);
         }
+    }
+    public function destroy($id,Request $request){
+        $category=SubCategory::find($id);
+        if(empty($category)){
+            $request->session()->flash('error','category not found');
+            return response()->json([
+                'status'=>true,
+                'message'=>'category not found'
+            ]);
+            //return redirect()->route('categories.index');
+        }
+        $category->delete();
+        $request->session()->flash('success','Sub category deleted successfully');
+        return response()->json([
+            'status'=>true,
+            'message'=>'Sub category deleted successfully'
+        ]);
     }
 }
