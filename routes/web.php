@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\BrandsController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,11 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/brands/{brand}/edit',[BrandsController::class,'edit'])->name('brands.edit');
         Route::put('/brands/{brand}',[BrandsController::class,'update'])->name('brands.update');
         Route::delete('/delete/{category}',[BrandsController::class,'destroy'])->name('brands.delete');
+
+        // Routes for products
+        Route::get('/products/create',[ProductController::class,'create'])->name('products.create');
+        Route::post('/product/store',[ProductController::class,'store'])->name('products.store');
+
 
 
 
