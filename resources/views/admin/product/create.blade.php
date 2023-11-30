@@ -17,8 +17,9 @@
     <!-- Main content -->
     @include('/admin.message')
     <section class="content">
-        <!-- Default box -->
-        <form action="" id="productForm" name="productForm">
+        <!-- Default box productForm -->
+        <form action="{{route('products.store')}}" id="" name="productForm" method="POST">
+            @csrf
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
@@ -28,13 +29,15 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="title">Title</label>
-                                            <input type="text" name="title" id="title" class="form-control" placeholder="Title">	
+                                            <input type="text" name="title" id="title" class="form-control" placeholder="Title">
+                                            <p class="errors"></p>	
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="slug">Slug</label>
                                             <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="slug">	
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -63,7 +66,8 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="price">Price</label>
-                                            <input type="text" name="price" id="price" class="form-control" placeholder="Price">	
+                                            <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                            <p class="errors"></p>	
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -86,6 +90,7 @@
                                         <div class="mb-3">
                                             <label for="sku">SKU (Stock Keeping Unit)</label>
                                             <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">	
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -97,12 +102,15 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" checked>
+                                                {{-- <input type="hidden" name="track_qty" value="No"> --}}
+                                                <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
+                                                <p class="errors"></p>
                                                 <label for="track_qty" class="custom-control-label">Track Quantity</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">	
+                                            <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">
+                                            <p class="errors"></p>	
                                         </div>
                                     </div>                                         
                                 </div>
@@ -147,7 +155,7 @@
                             <div class="card-body">	
                                 <h2 class="h4 mb-3">Product brand</h2>
                                 <div class="mb-3">
-                                    <select name="status" id="status" class="form-control">
+                                    <select name="brand" id="brand" class="form-control">
                                         <option value="">Select a brand</option>
                                         @if ($brands->isNotEmpty())
                                         @foreach($brands as $brand)
@@ -162,9 +170,9 @@
                             <div class="card-body">	
                                 <h2 class="h4 mb-3">Featured product</h2>
                                 <div class="mb-3">
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="0">No</option>
-                                        <option value="1">Yes</option>                                                
+                                    <select name="is_featured" id="is_featured" class="form-control">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>                                                
                                     </select>
                                 </div>
                             </div>
@@ -173,7 +181,7 @@
                 </div>
                 
                 <div class="pb-5 pt-3">
-                    <button class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
                     <a href="products.html" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
             </div>
@@ -235,11 +243,11 @@
             }
         });
     })
-    $("#subCategoryForm").submit(function(event) {
+    $("#productForm").submit(function(event) {
             event.preventDefault();
             var element = $(this);
             $.ajax({
-                url: '{{ route("sub-categories.store") }}', // Update URL if needed
+                url: '{{ route("products.store") }}', // Update URL if needed
                 type: 'post',
                 data: element.serializeArray(),
                 dataType: 'json',
@@ -247,38 +255,21 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                  },
                 success: function(response) {
-                    var errors = response['errors'];
+                    
                     if(response["status"]==true){
-                        window.location.href="{{route('sub-categories.index')}}"
+                        //window.location.href="{{route('products.create')}}"
                         //window.location.href="{{route('categories.index')}}";
-                    }
-                    if (errors['name']) {
-                        $("#name").addClass('is-invalid')
+                    }else{
+                        var errors = response['errors'];
+                        $(".errors").removeClass('invalid-feedback').html('');
+                        $("input[type='text'],select,input[type='number']").removeClass('is-invalid');
+                        $.each(errors,function(key,value){
+                            $(`#${key}`).addClass('is-invalid')
                             .siblings('p')
-                            .addClass('invalid-feedback').html(errors['name']);
-                    } else {
-                        $("#name").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
-                    if (errors['slug']) {
-                        $("#slug").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['slug']);
-                    } else {
-                        $("#slug").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
-                    if (errors['category']) {
-                        $("#category").addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['category']);
-                    } else {
-                        $("#category").removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html('');
-                    }
+                            .addClass('invalid-feedback')
+                            .html(value);
+                        });
+                    }        
                 },
                 error: function(jqXHR, exception) {
                         console.log("AJAX Error: ", jqXHR, exception);
