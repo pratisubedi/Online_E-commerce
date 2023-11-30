@@ -138,9 +138,7 @@
                                 <div class="mb-3">
                                     <label for="category">Sub category</label>
                                     <select name="sub_category" id="sub_category" class="form-control">
-                                        <option value="">Mobile</option>
-                                        <option value="">Home Theater</option>
-                                        <option value="">Headphones</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -185,55 +183,75 @@
     <!-- /.content -->
 @endsection
 @section('customejs')
-
 <script>
-Dropzone.autoDiscover = false;
+    Dropzone.autoDiscover = false;
     $(document).ready(function() {
-    const dropzone = new Dropzone("#image", {
-        init: function() {
-            this.on('addedfile', function(file) {
-                if (this.files.length > 1) {
-                    this.removeFile(this.files[0]);
-                }
-            });
-        },
-        url: "{{ route('temp-image.create') }}",
-        maxFiles: 1,
-        paramName: 'image',
-        addRemoveLinks: true,
-        acceptedFile: "image/jpeg,image/png,image/gif",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(file, response) {
-            $("#image_id").val(response.image_id);
-            console.log(response);
-        }
-    });
-    $('#name').change(function(){
-            element=$(this);
-            $.ajax({
-                url:'{{route("getSlug")}}',
-                type:'get',
-                data:{title: element.val()},
-                dataType:'json',
-                success:function(response){
-                    if(response["status"]==true){
-                        $("#slug").val(response["slug"]);
+        const dropzone = new Dropzone("#image", {
+            init: function() {
+                this.on('addedfile', function(file) {
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
                     }
+                });
+            },
+            url: "{{ route('temp-image.create') }}",
+            maxFiles: 1,
+            paramName: 'image',
+            addRemoveLinks: true,
+            acceptedFile: "image/jpeg,image/png,image/gif",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(file, response) {
+                $("#image_id").val(response.image_id);
+                console.log(response);
+            }
+        });
+    });
+    $("#category").change(function(){
+        var category_id = $(this).val();
+        $.ajax({
+            url: '{{ route("product-subcategories.index") }}',
+            type: 'get',
+            data: { category_id: category_id },
+            dataType: 'json',
+            success: function(response){
+                if(response.status == true){
+                    var subCategories = response.subCategories;
+                    var optionsHtml = '<option value="">Select a Sub Category</option>';
+
+                    if(subCategories.length > 0){
+                        $.each(subCategories, function(index, subCategory){
+                            optionsHtml += '<option value="' + subCategory.id + '">' + subCategory.name + '</option>';
+                        });
+                    }
+
+                    $("#sub_category").html(optionsHtml);
                 }
-            });
-       });
-        $("#productForm").submit(function(event) {
+                console.log(response);
+            },
+            error: function(){
+                console.log('Something Went Wrong');
+            }
+        });
+    })
+    $("#subCategoryForm").submit(function(event) {
             event.preventDefault();
             var element = $(this);
             $.ajax({
-                url: '{{ route("products.store") }}', // Update URL if needed
+                url: '{{ route("sub-categories.store") }}', // Update URL if needed
                 type: 'post',
                 data: element.serializeArray(),
                 dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
                 success: function(response) {
                     var errors = response['errors'];
+                    if(response["status"]==true){
+                        window.location.href="{{route('sub-categories.index')}}"
+                        //window.location.href="{{route('categories.index')}}";
+                    }
                     if (errors['name']) {
                         $("#name").addClass('is-invalid')
                             .siblings('p')
@@ -252,13 +270,23 @@ Dropzone.autoDiscover = false;
                             .siblings('p')
                             .removeClass('invalid-feedback').html('');
                     }
+                    if (errors['category']) {
+                        $("#category").addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback').html(errors['category']);
+                    } else {
+                        $("#category").removeClass('is-invalid')
+                            .siblings('p')
+                            .removeClass('invalid-feedback').html('');
+                    }
                 },
                 error: function(jqXHR, exception) {
-                    console.log("Something went wrong");
-                }
+                        console.log("AJAX Error: ", jqXHR, exception);
+                    }
+
             });
         });
-       $('#title').change(function(){
+    $('#title').change(function(){
             element=$(this);
             $.ajax({
                 url:'{{route("getSlug")}}',
@@ -272,29 +300,6 @@ Dropzone.autoDiscover = false;
                 }
             });
        });
-       Dropzone.autoDiscover = false;    
-            $(function () {
-                // Summernote
-                $('.summernote').summernote({
-                    height: '300px'
-                });
-               
-                const dropzone = $("#image").dropzone({ 
-                    url:  "create-product.html",
-                    maxFiles: 5,
-                    addRemoveLinks: true,
-                    acceptedFiles: "image/jpeg,image/png,image/gif",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }, success: function(file, response){
-                        $("#image_id").val(response.id);
-                    }
-                });
 
-            });
-    
-    });
 </script>
 @endsection
-    
-
