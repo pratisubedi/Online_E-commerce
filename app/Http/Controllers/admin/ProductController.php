@@ -47,7 +47,6 @@ class ProductController extends Controller
         }
         $validator=Validator::make($request->all(),$rules);
         if($validator->passes()){
-           dd($request->all());
             $product=new Product;
             $product->title=$request->title;
             $product->slug=$request->slug;
@@ -65,22 +64,22 @@ class ProductController extends Controller
             $product->is_featured=$request->is_featured;
             $product->save();
             if (!empty($request->image_array)) {
-                // foreach ($request->image_array as $temp_image_id) {
-                //     $tempImageInfo = TempImage::find($temp_image_id);
+                foreach ($request->image_array as $temp_image_id) {
+                    $tempImageInfo = TempImage::find($temp_image_id);
             
-                //     if ($tempImageInfo) { // Check if TempImage with given ID exists
-                //         $extArray = explode('.', $tempImageInfo->name);
-                //         $ext = last($extArray); // like jpg png
+                    if ($tempImageInfo) { // Check if TempImage with given ID exists
+                        $extArray = explode('.', $tempImageInfo->name);
+                        $ext = last($extArray); // like jpg png
             
-                //         $productImage = new PoductImage();
-                //         $productImage->product_id = $product->id;
-                //         $productImage->image = 'NULL'; // This line might not be necessary, depending on your requirements
+                        $productImage = new PoductImage();
+                        $productImage->product_id = $product->id;
+                        $productImage->image = 'NULL'; // This line might not be necessary, depending on your requirements
             
-                //         $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext;
-                //         $productImage->image = $imageName;
-                //         $productImage->save();
-                //     }
-                // }
+                        $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext;
+                        $productImage->image = $imageName;
+                        $productImage->save();
+                    }
+                }
                 dd($request->all());
             }
             $request->session()->flash('success','Product created successfully done------');
@@ -108,5 +107,58 @@ class ProductController extends Controller
         $data['products']=$products;
         $data['subCategory']=$subCategory;
         return view('admin.product.edit',$data);
+    }
+    public function update($id, Request $request)
+    {
+        $product = Product::find($id);
+    
+        $rules = [
+            'title' => 'required',
+            'slug' => 'required|unique:products,slug,' . $product->id . ',id',
+            'price' => 'required',
+            'sku' => 'required|unique:products,sku,' . $product->id . ',id',
+            'track_qty' => 'required|in:Yes,No',
+            'category' => 'required|numeric',
+            'is_featured' => 'required|in:Yes,No',
+        ];
+    
+        if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
+            $rules['qty'] = 'required|numeric';
+        }
+    
+        $validator = Validator::make($request->all(), $rules);
+    
+        if ($validator->passes()) {
+            // Update the product attributes
+            $product->title = $request->title;
+            $product->slug = $request->slug;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->compare_price = $request->compare_price;
+            $product->sku = $request->sku;
+            $product->barcode = $request->barcode;
+            $product->track_qty = $request->track_qty;
+            $product->qty = $request->qty;
+            $product->status = $request->status;
+            $product->category_id = $request->category;
+            $product->sub_category_id = $request->sub_category;
+            $product->brands_models_id = $request->brand;
+            $product->is_featured = $request->is_featured;
+            $product->save();
+    
+            // Flash message and response
+            $request->session()->flash('success', 'Product updated successfully done------');
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Updated successfully done------'
+            ]);
+    
+        } else {
+            // Validation failed, return error response
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 }
