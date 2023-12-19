@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Validator;
 use Illuminate\Support\Facades\File;
-use Image;
-use GdImage;
+use Intervention\Image\Facades\Image;
 
 class categoryController extends Controller
 {
@@ -49,10 +48,10 @@ class categoryController extends Controller
                 $category->save();
 
                 //Generate Image ThumNail
-                // $dPath=public_path().'/upload/category/thumnail/'.$newImageName;
-                // $img=Image::make($sPath);
-                // $img->resize(450,600);
-                // $img->save($dPath);
+                $dPath=public_path().'/upload/category/thumnail/'.$newImageName;
+                $img=Image::make($sPath);
+                $img->resize(450,600);
+                $img->save($dPath);
 
             }
 

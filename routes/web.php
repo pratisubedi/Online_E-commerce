@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,6 +65,8 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/products/create',[ProductController::class,'create'])->name('products.create');
         Route::post('/product/store',[ProductController::class,'store'])->name('products.store');
         Route::get('/product-subcategories/index',[ProductSubCategory::class,'index'])->name('product-subcategories.index');
+        Route::get('/products',[ProductController::class,'index'])->name('products.index');
+        Route::get('/products/{brand}/edit',[ProductController::class,'edit'])->name('products.edit');
 
 
 
