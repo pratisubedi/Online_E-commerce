@@ -34,6 +34,7 @@ class categoryController extends Controller
             $category = new Category();
             $category->name = $request->name;
             $category->slug = $request->slug;
+            $category->showHome=$request->showHome;
             $category->save();
             if(!empty($request->image_id)){
                 $tempImage= TempImage::find($request->image_id);
