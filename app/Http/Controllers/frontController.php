@@ -9,7 +9,7 @@ class frontController extends Controller
 {
     public function index(){
        $product=Product::where('is_featured','Yes')->where('status',1)->get();
-       $data['products']=$product;
+       $data['featuredproducts']=$product;
         return view('Front.home',$data);
     }
 }
