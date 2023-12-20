@@ -43,6 +43,7 @@ class sub_category extends Controller
             $subCategory->slug=$request->slug;
             $subCategory->status=$request->status;
             $subCategory->category_id=$request->category;
+            $subCategory->showHome=$request->showHome;
             $subCategory->save();
             $request->session()->flash('success','sub categor created success');
             return response()->json([
@@ -69,41 +70,46 @@ class sub_category extends Controller
     }
 
     public function update($id, Request $request){
-        $sub_category= SubCategory::find($id);
-        if(empty($sub_category)){
+        $subCategory = SubCategory::find($id);
+    
+        if(empty($subCategory)){
             return response()->json([
-                'status'=>false,
-                'message'=>'id not found',
-                'notFound'=>true
+                'status' => false,
+                'message' => 'ID not found',
+                'notFound' => true
             ]);
         }
-        $validator =validator::make($request->all(),[
-            'name'=>'required',
-            'slug'=>'required|unique:sub_categories,slug,'.$sub_category->id.',id',
-            //'slug'=>'required|unique:sub_categories',
-            'category'=>'required',
-            'status'=>'required'
+    
+        $validator = validator::make($request->all(), [
+            'name' => 'required',
+            'slug' => 'required|unique:sub_categories,slug,'.$subCategory->id.',id',
+            'category' => 'required',
+            'status' => 'required'
         ]);
+    
         if($validator->passes()){
-            $subCategory= new SubCategory();
-            $subCategory->name=$request->name;
-            $subCategory->slug=$request->slug;
-            $subCategory->status=$request->status;
-            $subCategory->category_id=$request->category;
+            // Update the existing record instead of creating a new one
+            $subCategory->name = $request->name;
+            $subCategory->slug = $request->slug;
+            $subCategory->status = $request->status;
+            $subCategory->category_id = $request->category;
+            $subCategory->showHome = $request->showHome;
             $subCategory->save();
-            $request->session()->flash('success','sub category created success');
-            
+    
+            $request->session()->flash('success', 'Subcategory updated successfully');
+    
             return response()->json([
-                'status'=>true,
-                'message'=>'sub category created success'
+                'status' => true,
+                'message' => 'Subcategory updated successfully'
             ]);
-        }else{
+        } else {
             return response()->json([
-                'status'=>false,
-                'errors'=>$validator->errors()
+                'status' => false,
+                'errors' => $validator->errors()
             ]);
         }
     }
+    
     public function destroy($id,Request $request){
         $category=SubCategory::find($id);
         if(empty($category)){
