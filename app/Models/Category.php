@@ -9,6 +9,6 @@ class Category extends Model
 {
     use HasFactory;
     public function sub_category(){
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(SubCategory::class)->where('status', 1);
     }
 }
