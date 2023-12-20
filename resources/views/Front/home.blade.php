@@ -92,13 +92,20 @@
 						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 							{{$category->name}}
 						</button>
-						<ul class="dropdown-menu dropdown-menu-dark">
+                        @if ($category->sub_category->isNotEmpty())
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                @foreach($category->sub_category as $subCategory)
+                                    <li><a class="dropdown-item nav-link" href="#">{{$subCategory->name}}</a></li>
+                                @endforeach
+                            </ul>  
+                        @endif
+						{{-- <ul class="dropdown-menu dropdown-menu-dark">
 							<li><a class="dropdown-item nav-link" href="#">Mobile</a></li>
 							<li><a class="dropdown-item nav-link" href="#">Tablets</a></li>
 							<li><a class="dropdown-item nav-link" href="#">Laptops</a></li>
 							<li><a class="dropdown-item nav-link" href="#">Speakers</a></li>
 							<li><a class="dropdown-item nav-link" href="#">Watches</a></li>
-						</ul>
+						</ul> --}}
 					</li>
                     @endforeach
                     @endif
@@ -254,110 +261,26 @@
                 <h2>Categories</h2>
             </div>           
             <div class="row pb-3">
+                @if(getCategories()->isNotEmpty())
+                @foreach(getCategories() as $category)
                 <div class="col-lg-3">
                     <div class="cat-card">
                         <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
+                            @if($category->image !="")
+                            <img src="{{asset('upload/category/'.$category->image)}}" alt="" class="img-fluid">
+                            @endif
+                            {{-- <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid"> --}}
                         </div>
                         <div class="right">
                             <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
+                                <h2>{{$category->name}}</h2>
+                                {{-- <p>100 Products</p> --}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="cat-card">
-                        <div class="left">
-                            <img src="/Front-assets/images/cat-1.jpg" alt="" class="img-fluid">
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h2>Mens</h2>
-                                <p>100 Products</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                @endif
             </div>
         </div>
     </section>
