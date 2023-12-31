@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Validator;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
-
+use Intervention\Image\Facades\Image as image;
+use Intervention\Image\ImageManager;
+//use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\Gd\Driver;
 class categoryController extends Controller
 {
+
     public function index(Request $request){
         $categories=Category::latest();
         if(!empty($request->get('keyword'))){
@@ -48,11 +51,18 @@ class categoryController extends Controller
                 $category->image =$newImageName;
                 $category->save();
 
-                //Generate Image ThumNail
+                // //Generate Image ThumNail
+                //$manager = ImageManager::gd();
+                $manager = new ImageManager(Driver::class);
                 $dPath=public_path().'/upload/category/thumnail/'.$newImageName;
-                $img=Image::make($sPath);
-                $img->resize(450,600);
-                $img->save($dPath);
+                //$img=Image::make($sPath);
+                // $img=$manager('',$dPath);
+                // $img->resize(450,600);
+                // $img->save($dPath);
+                $image = $manager->read($sPath);
+                $image = $image->resizeDown(450, 600);
+                $image->save($dPath);
+
 
             }
 

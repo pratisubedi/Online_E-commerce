@@ -32,7 +32,6 @@ class ProductController extends Controller
         return view('admin.product.create',$data);
     }
     public function store(Request $request){
-        //dd($request->all());
         $rules=[
             'title'=>'required',
             'slug'=>'required|unique:products',
@@ -66,15 +65,15 @@ class ProductController extends Controller
             if (!empty($request->image_array)) {
                 foreach ($request->image_array as $temp_image_id) {
                     $tempImageInfo = TempImage::find($temp_image_id);
-            
+
                     if ($tempImageInfo) { // Check if TempImage with given ID exists
                         $extArray = explode('.', $tempImageInfo->name);
                         $ext = last($extArray); // like jpg png
-            
+
                         $productImage = new PoductImage();
                         $productImage->product_id = $product->id;
                         $productImage->image = 'NULL'; // This line might not be necessary, depending on your requirements
-            
+
                         $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext;
                         $productImage->image = $imageName;
                         $productImage->save();
@@ -87,7 +86,7 @@ class ProductController extends Controller
                 'status'=>true,
                 'message'=>'Product created successfully done------'
             ]);
-            
+
         }else{
             return response()->json([
                 'status'=>false,
@@ -111,7 +110,7 @@ class ProductController extends Controller
     public function update($id, Request $request)
     {
         $product = Product::find($id);
-    
+
         $rules = [
             'title' => 'required',
             'slug' => 'required|unique:products,slug,' . $product->id . ',id',
@@ -121,13 +120,13 @@ class ProductController extends Controller
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
         ];
-    
+
         if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
             $rules['qty'] = 'required|numeric';
         }
-    
+
         $validator = Validator::make($request->all(), $rules);
-    
+
         if ($validator->passes()) {
             // Update the product attributes
             $product->title = $request->title;
@@ -145,14 +144,14 @@ class ProductController extends Controller
             $product->brands_models_id = $request->brand;
             $product->is_featured = $request->is_featured;
             $product->save();
-    
+
             // Flash message and response
             $request->session()->flash('success', 'Product updated successfully done------');
             return response()->json([
                 'status' => true,
                 'message' => 'Product Updated successfully done------'
             ]);
-    
+
         } else {
             // Validation failed, return error response
             return response()->json([
