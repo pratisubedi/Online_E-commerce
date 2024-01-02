@@ -78,30 +78,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                $0-$100
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                $100-$200
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                $200-$500
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                $500+
-                            </label>
-                        </div>
+                        <input type="text" class="js-range-slider" name="my_range" value="" />
                     </div>
                 </div>
             </div>
@@ -174,6 +151,22 @@
 
 @section('customJs')
     <script>
+        rangeSlider=$(".js-range-slider").ionRangeSlider({
+            type:"double",
+            min:0,
+            max:10000,
+            from:0,
+            step:10,
+            to:500,
+            skin:"round",
+            max_postfix:"+",
+            prefix:"$",
+            onFinish:function(){
+                apply_filters()
+            }
+
+        });
+        var slider=$(".js-range-slider").data("ionRangeSlider")
         $(".brand-label").change(function(){
             apply_filters();
         });
@@ -186,6 +179,7 @@
             });
             console.log(brands.toString());
             var url = '{{ url()->current() }}?brand=' + brands.toString();
+            url +='&price_min='+slider.result.from+'&price_max='+slider.result.to;
             window.location.href = url;
         }
     </script>

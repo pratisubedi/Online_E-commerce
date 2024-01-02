@@ -44,6 +44,12 @@ class shopController extends Controller
                 $brandsArray=explode(',', $request->get('brand'));
                 $products= $products->whereIn('brands_models_id', $brandsArray);
             }
+
+            //Applying filter on price
+
+            if($request->get('price_max')!='' && $request->get('price_min')!= ''){
+                $products = $products->whereBetween('price', [$request->get('price_min'), $request->get('price_max')]);
+            }
             // Order products by ID in descending order
             $products = $products->orderBy('id', 'DESC')->get();
 
