@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 @section('content')
     <!-- Content Header (Page header) -->
-    <section class="content-header">					
+    <section class="content-header">
         <div class="container-fluid my-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -18,26 +18,26 @@
     @include('/admin.message')
     <section class="content">
         <!-- Default box productForm -->
-        {{-- <form action="{{route('products.store')}}" id="" name="productForm" method="POST"> --}}
-        <form  id="productForm" name="productForm" method="POST">
+        <form action="{{route('products.store')}}" id="" name="productForm" method="POST">
+        {{-- <form  id="productForm" name="productForm" method="POST"> --}}
             @csrf
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card mb-3">
-                            <div class="card-body">								
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="title">Title</label>
                                             <input type="text" name="title" id="title" class="form-control" placeholder="Title">
-                                            <p class="errors"></p>	
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="slug">Slug</label>
-                                            <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="slug">	
+                                            <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="slug">
                                             <p class="errors"></p>
                                         </div>
                                     </div>
@@ -46,29 +46,32 @@
                                             <label for="description">Description</label>
                                             <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description"></textarea>
                                         </div>
-                                    </div>                                            
-                                </div>
-                            </div>	                                                                      
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h2 class="h4 mb-3">Media</h2>								
-                                <div id="image" name="image" class="dropzone dz-clickable">
-                                    <div class="dz-message needsclick">    
-                                        <br>Drop files here or click to upload.<br><br>                                            
                                     </div>
                                 </div>
-                            </div>	                                                                      
+                            </div>
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Pricing</h2>								
+                                <h2 class="h4 mb-3">Media</h2>
+                                <div id="image" name="image" class="dropzone dz-clickable">
+                                    <div class="dz-message needsclick">
+                                        <br>Drop files here or click to upload.<br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row " id="product-gallery">
+
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Pricing</h2>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="price">Price</label>
                                             <input type="text" name="price" id="price" class="form-control" placeholder="Price">
-                                            <p class="errors"></p>	
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -77,29 +80,29 @@
                                             <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
                                             <p class="text-muted mt-3">
                                                 To show a reduced price, move the product’s original price into Compare at price. Enter a lower value into Price.
-                                            </p>	
+                                            </p>
                                         </div>
-                                    </div>                                            
+                                    </div>
                                 </div>
-                            </div>	                                                                      
+                            </div>
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Inventory</h2>								
+                                <h2 class="h4 mb-3">Inventory</h2>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="sku">SKU (Stock Keeping Unit)</label>
-                                            <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">	
+                                            <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">
                                             <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="barcode">Barcode</label>
-                                            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">	
+                                            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
                                         </div>
-                                    </div>   
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox">
@@ -111,16 +114,16 @@
                                         </div>
                                         <div class="mb-3">
                                             <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">
-                                            <p class="errors"></p>	
+                                            <p class="errors"></p>
                                         </div>
-                                    </div>                                         
+                                    </div>
                                 </div>
-                            </div>	                                                                      
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-3">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4 mb-3">Product status</h2>
                                 <div class="mb-3">
                                     <select name="status" id="status" class="form-control">
@@ -129,9 +132,9 @@
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="card">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4  mb-3">Product category</h2>
                                 <div class="mb-3">
                                     <label for="category">Category</label>
@@ -147,13 +150,13 @@
                                 <div class="mb-3">
                                     <label for="category">Sub category</label>
                                     <select name="sub_category" id="sub_category" class="form-control">
-                                        
+
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="card mb-3">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4 mb-3">Product brand</h2>
                                 <div class="mb-3">
                                     <select name="brand" id="brand" class="form-control">
@@ -166,21 +169,21 @@
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="card mb-3">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4 mb-3">Featured product</h2>
                                 <div class="mb-3">
                                     <select name="is_featured" id="is_featured" class="form-control">
                                         <option value="No">No</option>
-                                        <option value="Yes">Yes</option>                                                
+                                        <option value="Yes">Yes</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>                                 
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="pb-5 pt-3">
                     <button type="submit" class="btn btn-primary">Create</button>
                     <a href="products.html" class="btn btn-outline-dark ml-3">Cancel</a>
@@ -199,7 +202,7 @@
         const dropzone = new Dropzone("#image", {
             url: "{{ route('temp-image.create') }}", // URL for image upload
             type: "post", // HTTP method for upload
-            maxFiles: 5, // Maximum number of files allowed
+            maxFiles: 2, // Maximum number of files allowed
             paramName: "image", // Name of the file input parameter
             addRemoveLinks: true, // Allow file removal
             acceptedFiles: "image/jpeg,image/png,image/gif", // Allowed file types
@@ -220,7 +223,7 @@
             const html = `
                 <div class="col-md-3">
                     <div class="card">
-                        <input type="hidden" name="image_array[]" value="${response.image_id}">
+                        <input  name="image_array[]" value="${response.image_id}">
                         <img src="${response.ImagePath}" class="card-img-top" alt="">
                         <div class="card-body">
                             <a href="#" class="btn btn-danger">Delete</a>
@@ -271,9 +274,9 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                  },
                 success: function(response) {
-                    
+
                     if(response["status"]==true){
-                        //window.location.href="{{route('products.create')}}"
+                        window.location.href="{{route('products.create')}}"
                         //window.location.href="{{route('categories.index')}}";
                     }else{
                         var errors = response['errors'];
@@ -285,7 +288,7 @@
                             .addClass('invalid-feedback')
                             .html(value);
                         });
-                    }        
+                    }
                 },
                 error: function(jqXHR, exception) {
                         console.log("AJAX Error: ", jqXHR, exception);

@@ -25,7 +25,7 @@ use Illuminate\Support\Str;
 */
 
 Route::get('/',[frontController::class,'index'])->name('Front.home');
-Route::get('/shop',[shopController::class,'index'])->name('Front.shop');
+Route::get('/shop/{categorySlug?}/{subCategorySlug?}',[shopController::class,'index'])->name('Front.shop');
 Route::get('/admin/login',[AdminLoginController::class,'index'])->name('admin.login');
 
 Route::group(['prefix'=> 'admin'], function () {
@@ -54,7 +54,7 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::put('/sub-categories/{category}',[sub_category::class,'update'])->name('sub-categories.update');
         Route::delete('/sub-categories/{category}',[sub_category::class,'destroy'])->name('sub_categories.delete');
 
-        // Routes for brands 
+        // Routes for brands
         Route::get('/brands/create',[BrandsController::class,'create'])->name('brands.create');
         Route::post('/brand/store',[BrandsController::class,'store'])->name('brand.store');
         Route::get('/brands',[BrandsController::class,'index'])->name('brands.index');
@@ -78,7 +78,7 @@ Route::group(['prefix'=> 'admin'], function () {
                 if(!empty($request->title )){
                     $slug=Str::slug($request->title);
                 }
-                //return back()->with($slug); 
+                //return back()->with($slug);
                 return response()->json([
                     'status'=>true,
                     'slug'=>$slug
