@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en_AU" />
+<html class="no-js" lang="en_AU">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?php echo (!empty($title)) ? 'Title-'.$title: 'Home'; ?></title>
@@ -34,6 +34,7 @@
 	<link rel="stylesheet" type="text/css" href="/Front-assets/css/slick.css" />
 	<link rel="stylesheet" type="text/css" href="/Front-assets/css/slick-theme.css" />
 	<link rel="stylesheet" type="text/css" href="/Front-assets/css/video-js.css" />
+	<link rel="stylesheet" type="text/css" href="/Front-assets/css/ion.rangeSlider.min.css" />
     <link rel="stylesheet" type="text/css" href="/Front-assets/css/style.css?v=<?php echo rand(111,999); ?>" />
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -219,6 +220,7 @@
 <script src="/Front-assets/js/lazyload.17.6.0.min.js"></script>
 <script src="/Front-assets/js/slick.min.js"></script>
 <script src="/Front-assets/js/custom.js"></script>
+<script src="/Front-assets/js/ion.rangeSlider.min.js"></script>
 <script>
 window.onscroll = function() {myFunction()};
 
