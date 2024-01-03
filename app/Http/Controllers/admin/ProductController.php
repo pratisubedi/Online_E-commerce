@@ -43,6 +43,7 @@ class ProductController extends Controller
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
+            'short_description'=> 'required',
         ];
 
         if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
@@ -67,6 +68,8 @@ class ProductController extends Controller
             $product->sub_category_id = $request->sub_category;
             $product->brands_models_id = $request->brand;
             $product->is_featured = $request->is_featured;
+            $product->short_description= $request->short_description;
+            $product->shipping_return= $request->shipping_return;
             $product->save();
 
             // If the 'image_array' is an array and not empty
@@ -140,6 +143,7 @@ class ProductController extends Controller
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
+            'short_description'=> 'required',
         ];
 
         if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
@@ -164,6 +168,8 @@ class ProductController extends Controller
             $product->sub_category_id = $request->sub_category;
             $product->brands_models_id = $request->brand;
             $product->is_featured = $request->is_featured;
+            $product->short_description= $request->short_description;
+            $product->shipping_return=$request->shipping_return;
             $product->save();
 
             // Flash message and response

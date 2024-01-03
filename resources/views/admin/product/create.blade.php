@@ -47,6 +47,18 @@
                                             <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description"></textarea>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="description">Short Description</label>
+                                            <textarea name="short_description" id="short_description" cols="30" rows="10" class="summernote" placeholder="Description" ></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="description">Shipping and Returns</label>
+                                            <textarea name="shipping_return" id="shipping_return" cols="30" rows="10" class="summernote" placeholder="Description" ></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

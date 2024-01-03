@@ -48,10 +48,27 @@ class shopController extends Controller
             //Applying filter on price
 
             if($request->get('price_max')!='' && $request->get('price_min')!= ''){
-                $products = $products->whereBetween('price', [$request->get('price_min'), $request->get('price_max')]);
+                if($request->get('price_max')==5000){
+                    $products = $products->whereBetween('price', [intval($request->get('price_min')), 10000000]);
+                }else{
+                    $products = $products->whereBetween('price', [intval($request->get('price_min')), intval($request->get('price_max'))]);
+                }
             }
+            // Applying filter on sorting
+            if($request->get('sort')) {
+                if($request->get('sort')=='latest'){
+                    $products = $products->orderBy('id', 'DESC');
+                }
+                else if($request->get('sort')== 'price_asc'){
+                    $products = $products->orderBy('id','ASC');
+                }
+                else{
+                    $products = $products->orderBy('id','DESC');
+                }
+            }
+            $products=$products->paginate(4);
             // Order products by ID in descending order
-            $products = $products->orderBy('id', 'DESC')->get();
+
 
             $data['categories'] = $categories;
             $data['brands'] = $brands;
@@ -59,8 +76,21 @@ class shopController extends Controller
             $data['categorySelected'] = $categorySelected;
             $data['subCategorySelected'] = $subCategorySelected;
             $data['brandsArray'] = $brandsArray;
+            $data['priceMax'] = (intval($request->get('price_max'))==0) ? 1000:$request->get('price_max');
+            $data['priceMin'] = intval($request->get('price_min'));
+            $data['sort'] = $request->get('sort');
 
             return view('Front.shop', $data);
         }
 
+        public function products($slug){
+            //echo $slug;
+            //$products = Product::where('slug',$slug)->with('product_images')->first();
+            $products = Product::where('slug',$slug)->first();
+            if($products==null){
+                abort(404);
+            }
+            $data['products'] = $products;
+            return view('Front.product', $data);
+        }
 }

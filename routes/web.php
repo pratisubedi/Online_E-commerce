@@ -24,8 +24,11 @@ use Illuminate\Support\Str;
 |
 */
 
+
+//Route for frontend shop page
 Route::get('/',[frontController::class,'index'])->name('Front.home');
 Route::get('/shop/{categorySlug?}/{subCategorySlug?}',[shopController::class,'index'])->name('Front.shop');
+Route::get('/product/{slug}',[shopController::class,'products'])->name('front.product');
 Route::get('/admin/login',[AdminLoginController::class,'index'])->name('admin.login');
 
 Route::group(['prefix'=> 'admin'], function () {
