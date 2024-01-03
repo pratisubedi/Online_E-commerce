@@ -71,6 +71,7 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/product-subcategories/index',[ProductSubCategory::class,'index'])->name('product-subcategories.index');
         Route::get('/products',[ProductController::class,'index'])->name('products.index');
         Route::get('/products/{brand}/edit',[ProductController::class,'edit'])->name('products.edit');
+        Route::get('/get-product',[ProductController::class,'getProducts'])->name('product-getProducts');
 
 
 

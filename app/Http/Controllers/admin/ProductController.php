@@ -187,4 +187,10 @@ class ProductController extends Controller
             ]);
         }
     }
+    public function getProducts(Request $request){
+        if($request->term !=''){
+            $product=Product::where('name','like','%'.$request->term.'%')->get();
+
+        }
+    }
 }
