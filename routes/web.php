@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategory;
 use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
+use App\Http\Controllers\cartController;
 use App\Http\Controllers\frontController;
 use App\Http\Controllers\shopController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,10 @@ Route::get('/',[frontController::class,'index'])->name('Front.home');
 Route::get('/shop/{categorySlug?}/{subCategorySlug?}',[shopController::class,'index'])->name('Front.shop');
 Route::get('/product/{slug}',[shopController::class,'products'])->name('front.product');
 Route::get('/admin/login',[AdminLoginController::class,'index'])->name('admin.login');
+
+//Route for cart page
+Route::get('/cart',[cartController::class,'cart'])->name('Front.cart');
+Route::post('/add-to-cart',[cartController::class,'addToCart'])->name('Front.addToCart');
 
 Route::group(['prefix'=> 'admin'], function () {
     Route::group(['middleware'=>'admin.guest'],function(){

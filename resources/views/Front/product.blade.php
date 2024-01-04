@@ -65,7 +65,7 @@
                     <h2 class="price ">${{$products->price}}</h2>
 
                     <p>{!!$products->short_description!!}</p>
-                    <a href="cart.php" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
+                    <a href="javascript:void(0);" onclick="addToCart({{$products->id}})" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
                 </div>
             </div>
 
@@ -89,7 +89,7 @@
                             </p>
                         </div>
                         <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-                        <p></p>
+                        <p> {{$products->shipping_return}}</p>
                         </div>
                         <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
 
@@ -116,7 +116,7 @@
                                 <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
 
                                 <div class="product-action">
-                                    <a class="btn btn-dark" href="#">
+                                    <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$products->id}})">
                                         <i class="fa fa-shopping-cart"></i> Add To Cart
                                     </a>
                                 </div>
@@ -135,4 +135,9 @@
         </div>
     </div>
 </section>
+@endsection
+@section('customJs')
+    <script type="text/javascript">
+
+    </script>
 @endsection
