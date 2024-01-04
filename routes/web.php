@@ -35,6 +35,8 @@ Route::get('/admin/login',[AdminLoginController::class,'index'])->name('admin.lo
 //Route for cart page
 Route::get('/cart',[cartController::class,'cart'])->name('Front.cart');
 Route::post('/add-to-cart',[cartController::class,'addToCart'])->name('Front.addToCart');
+Route::post('/update-Cart',[cartController::class,'updateCart'])->name('Front.updateCart');
+Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.deleteCart');
 
 Route::group(['prefix'=> 'admin'], function () {
     Route::group(['middleware'=>'admin.guest'],function(){
