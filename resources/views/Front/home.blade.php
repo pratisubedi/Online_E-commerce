@@ -17,12 +17,12 @@
                         <div class="p-3">
                             <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
                             <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                            <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                            <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{route('Front.shop')}}">Shop Now</a>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    
+
                     <picture>
                         <source media="(max-width: 799px)" srcset="/Front-assets/images/carousel-2-m.jpg" />
                         <source media="(min-width: 800px)" srcset="/Front-assets/images/carousel-2.jpg" />
@@ -72,25 +72,25 @@
                     <div class="box shadow-lg">
                         <div class="fa icon fa-check text-primary m-0 mr-3"></div>
                         <h2 class="font-weight-semi-bold m-0">Quality Product</h5>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="col-lg-3 ">
                     <div class="box shadow-lg">
                         <div class="fa icon fa-shipping-fast text-primary m-0 mr-3"></div>
                         <h2 class="font-weight-semi-bold m-0">Free Shipping</h2>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="box shadow-lg">
                         <div class="fa icon fa-exchange-alt text-primary m-0 mr-3"></div>
                         <h2 class="font-weight-semi-bold m-0">14-Day Return</h2>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="col-lg-3 ">
                     <div class="box shadow-lg">
                         <div class="fa icon fa-phone-volume text-primary m-0 mr-3"></div>
                         <h2 class="font-weight-semi-bold m-0">24/7 Support</h5>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
         <div class="container">
             <div class="section-title">
                 <h2>Categories</h2>
-            </div>           
+            </div>
             <div class="row pb-3">
                 @if(getCategories()->isNotEmpty())
                 @foreach(getCategories() as $category)
@@ -129,22 +129,22 @@
         <div class="container">
             <div class="section-title">
                 <h2>Featured Products</h2>
-            </div>    
+            </div>
             <div class="row pb-3">
                 @if($featuredproducts->isNotEmpty())
                     @foreach($featuredproducts as $product)
                         <div class="col-md-3">
                             <div class="card product-card">
                                 <div class="product-image position-relative">
-                                    <a href="" class="product-img"><img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
-        
+                                    <a href="{{route('front.product',$product->slug)}}" class="product-img"><img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
+                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
+
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="#">
+                                        <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
-                                        </a>                            
+                                        </a>
                                     </div>
-                                </div>                        
+                                </div>
                                 <div class="card-body text-center mt-3">
                                     <a class="h6 link" href="product.php">{{$product->title}}</a>
                                     <div class="price mt-2">
@@ -153,11 +153,11 @@
                                             <span class="h6 text-underline"><del>${{$product->compare_price}}</del></span>
                                         @endif
                                     </div>
-                                </div>                        
-                            </div>                                               
-                        </div> 
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
-                @endif            
+                @endif
             </div>
         </div>
     </section>
@@ -166,33 +166,33 @@
         <div class="container">
             <div class="section-title">
                 <h2>Latest Produsts</h2>
-            </div>    
+            </div>
             <div class="row pb-3">
                 @if($latestproducts->isNotEmpty())
                     @foreach ($latestproducts as $product)
                         <div class="col-md-3">
                             <div class="card product-card">
                                 <div class="product-image position-relative">
-                                    <a href="" class="product-img"><img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
-        
+                                    <a href="{{route('front.product',$product->slug)}}" class="product-img"><img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
+                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
+
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="#">
+                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{$product->id}})">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
-                                        </a>                            
+                                        </a>
                                     </div>
-                                </div>                        
+                                </div>
                                 <div class="card-body text-center mt-3">
                                     <a class="h6 link" href="product.php">{{$product->name}}</a>
                                     <div class="price mt-2">
                                         <span class="h5"><strong>${{$product->price}}</strong></span>
                                         <span class="h6 text-underline"><del>${{$product->compare_price}}</del></span>
                                     </div>
-                                </div>                        
-                            </div>                                               
-                        </div> 
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
-                @endif            
+                @endif
             </div>
         </div>
     </section>

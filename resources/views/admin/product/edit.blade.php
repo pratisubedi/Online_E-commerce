@@ -1,7 +1,7 @@
 @extends('admin.layout.app')
 @section('content')
     <!-- Content Header (Page header) -->
-    <section class="content-header">					
+    <section class="content-header">
         <div class="container-fluid my-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -25,19 +25,19 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card mb-3">
-                            <div class="card-body">								
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="title">Title</label>
                                             <input type="text" name="title" id="title" class="form-control" placeholder="Title" value="{{$products->title}}">
-                                            <p class="errors"></p>	
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="slug">Slug</label>
-                                            <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="slug" value="{{$products->slug}}">	
+                                            <input readonly type="text" name="slug" id="slug" class="form-control" placeholder="slug" value="{{$products->slug}}">
                                             <p class="errors"></p>
                                         </div>
                                     </div>
@@ -46,29 +46,41 @@
                                             <label for="description">Description</label>
                                             <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description" >{{$products->description}}</textarea>
                                         </div>
-                                    </div>                                            
-                                </div>
-                            </div>	                                                                      
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h2 class="h4 mb-3">Media</h2>								
-                                <div id="image" name="image" class="dropzone dz-clickable">
-                                    <div class="dz-message needsclick">    
-                                        <br>Drop files here or click to upload.<br><br>                                            
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="description">Short Description</label>
+                                            <textarea name="short_description" id="short_description" cols="30" rows="10" class="summernote" placeholder="Description" >{{$products->short_description}}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="description">Shipping and Returns</label>
+                                            <textarea name="shipping_return" id="shipping_return" cols="30" rows="10" class="summernote" placeholder="Description" >{{$products->short_description}}</textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>	                                                                      
+                            </div>
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Pricing</h2>								
+                                <h2 class="h4 mb-3">Media</h2>
+                                <div id="image" name="image" class="dropzone dz-clickable">
+                                    <div class="dz-message needsclick">
+                                        <br>Drop files here or click to upload.<br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Pricing</h2>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="price">Price</label>
                                             <input type="text" name="price" id="price" class="form-control" placeholder="Price" value="{{$products->price}}">
-                                            <p class="errors"></p>	
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -77,29 +89,29 @@
                                             <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price" value="{{$products->compare_price}}">
                                             <p class="text-muted mt-3">
                                                 To show a reduced price, move the product’s original price into Compare at price. Enter a lower value into Price.
-                                            </p>	
+                                            </p>
                                         </div>
-                                    </div>                                            
+                                    </div>
                                 </div>
-                            </div>	                                                                      
+                            </div>
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Inventory</h2>								
+                                <h2 class="h4 mb-3">Inventory</h2>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="sku">SKU (Stock Keeping Unit)</label>
-                                            <input type="text" name="sku" id="sku" class="form-control" placeholder="sku" value="{{$products->sku}}">	
+                                            <input type="text" name="sku" id="sku" class="form-control" placeholder="sku" value="{{$products->sku}}">
                                             <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="barcode">Barcode</label>
-                                            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode" value="{{$products->barcode}}">	
+                                            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode" value="{{$products->barcode}}">
                                         </div>
-                                    </div>   
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox">
@@ -111,16 +123,16 @@
                                         </div>
                                         <div class="mb-3">
                                             <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty" value="{{$products->qty}}">
-                                            <p class="errors"></p>	
+                                            <p class="errors"></p>
                                         </div>
-                                    </div>                                         
+                                    </div>
                                 </div>
-                            </div>	                                                                      
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-3">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4 mb-3">Product status</h2>
                                 <div class="mb-3">
                                     <select name="status" id="status" class="form-control">
@@ -129,9 +141,9 @@
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="card">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4  mb-3">Product category</h2>
                                 <div class="mb-3">
                                     <label for="category">Category</label>
@@ -156,9 +168,9 @@
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="card mb-3">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4 mb-3">Product brand</h2>
                                 <div class="mb-3">
                                     <select name="brand" id="brand" class="form-control">
@@ -171,21 +183,38 @@
                                     </select>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="card mb-3">
-                            <div class="card-body">	
+                            <div class="card-body">
                                 <h2 class="h4 mb-3">Featured product</h2>
                                 <div class="mb-3">
                                     <select name="is_featured" id="is_featured" class="form-control">
                                         <option value="No">No</option>
-                                        <option value="Yes">Yes</option>                                                
+                                        <option value="Yes">Yes</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>                                 
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Related products</h2>
+                                <div class="mb-3">
+                                    <select multiple  class="related-product w-100" name="related_products[]" id="related_products">
+                                        @if (!empty($relatedProducts))
+                                            @foreach ($relatedProducts as $relProduct)
+                                                <option selected value="{{$relProduct->id}}">{{$relProduct->title}}</option>
+                                            @endforeach
+                                        @else
+                                            no data
+                                        @endif
+                                    </select>
+                                   <p class="error"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="pb-5 pt-3">
                     <button type="submit" class="btn btn-primary">Update</button>
                     <a href="products.html" class="btn btn-outline-dark ml-3">Cancel</a>
@@ -198,6 +227,20 @@
 @endsection
 @section('customejs')
 <script>
+    $('.related-product').select2({
+    ajax: {
+        url: '{{ route("product-getProducts") }}',
+        dataType: 'json',
+        tags: true,
+        multiple: true,
+        minimumInputLength: 3,
+        processResults: function (data) {
+            return {
+                results: data.tags
+            };
+        }
+    }
+});
    Dropzone.autoDiscover = false; // Disable automatic discovery of Dropzone
 
         $(document).ready(function() {
@@ -276,7 +319,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                  },
                 success: function(response) {
-                    
+
                     if(response["status"]==true){
                         //window.location.href="{{route('products.create')}}"
                         //window.location.href="{{route('categories.index')}}";
@@ -290,7 +333,7 @@
                             .addClass('invalid-feedback')
                             .html(value);
                         });
-                    }        
+                    }
                 },
                 error: function(jqXHR, exception) {
                         console.log("AJAX Error: ", jqXHR, exception);

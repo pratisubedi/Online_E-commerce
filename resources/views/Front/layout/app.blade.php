@@ -29,6 +29,7 @@
 	<meta name="twitter:image" content="" />
 	<meta name="twitter:image:alt" content="" />
 	<meta name="twitter:card" content="summary_large_image" />
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
 
 	<link rel="stylesheet" type="text/css" href="/Front-assets/css/slick.css" />
@@ -222,6 +223,11 @@
 <script src="/Front-assets/js/custom.js"></script>
 <script src="/Front-assets/js/ion.rangeSlider.min.js"></script>
 <script>
+    $.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
 window.onscroll = function() {myFunction()};
 
 var navbar = document.getElementById("navbar");
@@ -234,6 +240,22 @@ function myFunction() {
     navbar.classList.remove("sticky");
   }
 }
+function addToCart(id){
+            $.ajax({
+                url:'{{route("Front.addToCart")}}',
+                type:'post',
+                data:{id:id},
+                dataType:'json',
+                success:function(response){
+                    if(response.status==true){
+                        // alert(response.message);
+                        window.location.href='{{route("Front.cart")}}';
+                    }else{
+                        alert(response.message);
+                    }
+                },
+            });
+        }
 </script>
 @yield('customJs')
 </body>
