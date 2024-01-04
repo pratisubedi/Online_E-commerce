@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Validator;
 use Intervention\Image\ImageManager;
 //use Intervention\Image\Drivers\Imagick\Driver;
@@ -70,6 +71,7 @@ class ProductController extends Controller
             $product->is_featured = $request->is_featured;
             $product->short_description= $request->short_description;
             $product->shipping_return= $request->shipping_return;
+            $product->releated_products=(!empty($request->related_products)) ?  implode(',', $request->related_products):'';
             $product->save();
 
             // If the 'image_array' is an array and not empty
@@ -125,10 +127,18 @@ class ProductController extends Controller
         $brands=BrandsModel::orderBy('name','ASC')->get();
         $products=Product::find($id);
         $subCategory=SubCategory::where('category_id',$products->category_id)->get();
+
+        //fetch related records
+        $relatedProducts=[];
+        if($products->releated_products !=''){
+            $productArray=explode(',',$products->releated_products);
+            $relatedProducts=Product::whereIn('id',$productArray)->get();
+        }
         $data['categories']=$categories;
         $data['brands']=$brands;
         $data['products']=$products;
         $data['subCategory']=$subCategory;
+        $data['relatedProducts']=$relatedProducts;
         return view('admin.product.edit',$data);
     }
     public function update($id, Request $request)
@@ -137,10 +147,10 @@ class ProductController extends Controller
 
         $rules = [
             'title' => 'required',
-            'slug' => 'required|unique:products,slug,' . $product->id . ',id',
+            'slug' => ['required', Rule::unique('products')->ignore($product->id)],
             'price' => 'required',
-            'sku' => 'required|unique:products,sku,' . $product->id . ',id',
-            'track_qty' => 'required|in:Yes,No',
+            'sku' => ['required', Rule::unique('products')->ignore($product->id)],
+            'track_qty' => 'required',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
             'short_description'=> 'required',
@@ -170,6 +180,7 @@ class ProductController extends Controller
             $product->is_featured = $request->is_featured;
             $product->short_description= $request->short_description;
             $product->shipping_return=$request->shipping_return;
+            $product->releated_products=(!empty($request->related_products)) ?  implode(',', $request->related_products):'';
             $product->save();
 
             // Flash message and response
@@ -188,9 +199,18 @@ class ProductController extends Controller
         }
     }
     public function getProducts(Request $request){
+        $tempProduct=[];
         if($request->term !=''){
-            $product=Product::where('name','like','%'.$request->term.'%')->get();
-
+            $products=Product::where('title','like','%'.$request->term.'%')->get();
+            if($products != null){
+                foreach($products as $product){
+                    $tempProduct[]=array('id'=>$product->id,'text'=>$product->title);
+                }
+            }
         }
+        return response()->json([
+            'tags'=>$tempProduct,
+            'status'=> true,
+        ]);
     }
 }

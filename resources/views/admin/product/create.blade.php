@@ -193,6 +193,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Related products</h2>
+                                <div class="mb-3">
+                                    <select multiple  class="related-product w-100" name="related_products[]" id="related_products">
+                                    </select>
+                                   <p class="error"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -208,6 +218,20 @@
 @endsection
 @section('customejs')
 <script>
+    $('.related-product').select2({
+    ajax: {
+        url: '{{ route("product-getProducts") }}',
+        dataType: 'json',
+        tags: true,
+        multiple: true,
+        minimumInputLength: 3,
+        processResults: function (data) {
+            return {
+                results: data.tags
+            };
+        }
+    }
+});
    Dropzone.autoDiscover = false; // Disable automatic discovery of Dropzone
 
         $(document).ready(function() {

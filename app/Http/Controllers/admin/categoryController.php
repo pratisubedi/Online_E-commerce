@@ -100,9 +100,11 @@ class categoryController extends Controller
             'slug'=>'required|unique:categories,slug,'.$category->id.',id',
         ]);
         if($validator->passes()){
-            $category->name=$request->name;
-            $category->slug=$request->slug;
-            $category->status=$request->status;
+            $category->fill([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'status' => $request->status,
+            ]);
             $category->save();
 
             if(!empty($request->image_id)){

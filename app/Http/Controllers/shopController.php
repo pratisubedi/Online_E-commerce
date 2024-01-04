@@ -90,6 +90,13 @@ class shopController extends Controller
             if($products==null){
                 abort(404);
             }
+            //fetch related products
+            $relatedProducts=[];
+                if($products->releated_products !=''){
+                    $productArray=explode(',',$products->releated_products);
+                    $relatedProducts=Product::whereIn('id',$productArray)->get();
+                }
+            $data['relatedProducts']=$relatedProducts;
             $data['products'] = $products;
             return view('Front.product', $data);
         }
