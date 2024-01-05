@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
-
+use  Illuminate\Support\Facades\Auth;
 class authController extends Controller
 {
     public function login(Request $request){
@@ -41,5 +41,27 @@ class authController extends Controller
            ]);
        }
 
+    }
+
+    public function authenticate(Request $request){
+        $validator=Validator::Make($request->all(),[
+            'email' => 'required|email',
+            'password'=> 'required',
+        ]);
+        if($validator->passes()){
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))){
+                return redirect()->route('account.profile');
+            }else{
+                session()->flash('error','Either email or password is incorrect');
+                return redirect()->route('account.login')->withInput($request->only('email'));
+            }
+        }else{
+            return redirect()->route('account.login')
+            ->withErrors($validator)
+            ->withInput($request->only('email'));
+        }
+    }
+    public function profile(){
+        return view('Front.Account.profile');
     }
 }

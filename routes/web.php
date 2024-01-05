@@ -39,10 +39,21 @@ Route::post('/add-to-cart',[cartController::class,'addToCart'])->name('Front.add
 Route::post('/update-Cart',[cartController::class,'updateCart'])->name('Front.updateCart');
 Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.deleteCart');
 
-//Route  for register and login customer
-Route::get('/register',[authController::class,'register'])->name('account.register');
-Route::get('/login',[authController::class,'login'])->name('account.login');
-Route::post('/processRegister',[authController::class,'processRegister'])->name('account.processRegister');
+
+
+Route::group(['prefix'=>'account'],function(){
+    Route::group(['middleeare'=>'guest'],function(){
+        //Route  for register and login customer
+        Route::get('/register',[authController::class,'register'])->name('account.register');
+        Route::get('/login',[authController::class,'login'])->name('account.login');
+        Route::post('/processRegister',[authController::class,'processRegister'])->name('account.processRegister');
+        Route::post('/login-authenticate',[authController::class,'authenticate'])->name('account.authenticate');
+    });
+
+    Route::group(['middleware'=>'auth'],function(){
+        Route::get('/profile',[authController::class,'profile'])->name('account.profile');
+    });
+});
 
 
 Route::group(['prefix'=> 'admin'], function () {
