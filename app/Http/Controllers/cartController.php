@@ -72,6 +72,13 @@ class cartController extends Controller
          if($product->track_qty== 'Yes'){
             if( $qty<= $product->qty){
                 Cart::update( $rowId, $qty);
+                if(Cart::update($rowId,$qty)==true){
+                    $newQty=$product->qty-$qty;
+                    $product=Product::find($product->id);
+                    $product->qty=$newQty;
+                    $product->update();
+                }
+
                 $message='cart updated successfully';
                 $status=true;
             }else{
