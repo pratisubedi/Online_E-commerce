@@ -1,7 +1,7 @@
 
 @extends('admin.layout.app')
 @section('content')
-<section class="content-header">					
+<section class="content-header">
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -27,7 +27,7 @@
                         <div class="card-tools">
                             <div class="input-group input-group" style="width: 250px;">
                                 <input value="{{Request::get('keyword')}}" type="text" name="keyword" class="form-control float-right" placeholder="Search">
-            
+
                                 <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
                                     <i class="fas fa-search"></i>
@@ -37,7 +37,7 @@
                         </div>
                 </div>
             </form>
-            <div class="card-body table-responsive p-0">								
+            <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
@@ -54,16 +54,20 @@
                     <tbody>
                         @if (!empty($products))
                             @foreach ($products as $product)
-                                {{-- @php 
+                                @php
                                     $productImage=$product->product_images->first();
-                                @endphp --}}
+                                @endphp
                                 <tr>
                                     <td>{{$product->id}}</td>
-                                    <td><img src="img/product-1.jpg" class="img-thumbnail" width="50" ></td>
+                                    <td>
+                                        @if (!empty($productImage->image))
+                                            <img src="{{asset('upload/product/small/'.$productImage->image)}}" class="img-thumbnail" width="50" >
+                                        @endif
+                                    </td>
                                     <td><a href="#">{{$product->title}}</a></td>
                                     <td>{{$product->price}}</td>
                                     <td>{{$product->qty}}</td>
-                                    <td>{{$product->sku}}</td>											
+                                    <td>{{$product->sku}}</td>
                                     <td>
                                         @if($product->status==1)
                                             <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -95,7 +99,7 @@
                             </tr>
                         @endif
                     </tbody>
-                </table>										
+                </table>
             </div>
             <div class="card-footer clearfix">
                 {{$products->links()}}
@@ -155,5 +159,5 @@
 </script>
 @endsection
 
-    
+
 

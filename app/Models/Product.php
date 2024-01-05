@@ -9,6 +9,6 @@ class Product extends Model
 {
     use HasFactory;
     public function product_images(){
-        return $this->hasMany(TempImage::class);
+        return $this->hasMany(PoductImage::class);
     }
 }
