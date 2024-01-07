@@ -45,6 +45,7 @@
                                         <div class="mb-3">
                                             <label for="description">Description</label>
                                             <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description"></textarea>
+                                            <p class="errors"></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -118,7 +119,7 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox">
-                                                {{-- <input type="hidden" name="track_qty" value="No"> --}}
+                                                <input type="hidden" name="track_qty" value="No">
                                                 <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
                                                 <p class="errors"></p>
                                                 <label for="track_qty" class="custom-control-label">Track Quantity</label>
@@ -300,18 +301,18 @@
     })
     $("#productForm").submit(function(event) {
             event.preventDefault();
-            var element = $(this);
+            var formArray = $(this).serializeArray();
             $.ajax({
                 url: '{{ route("products.store") }}', // Update URL if needed
                 type: 'post',
-                data: element.serializeArray(),
+                data: formArray,
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                  },
                 success: function(response) {
 
-                    if(response["status"]==true){
+                    if(response["status"]===true){
                         window.location.href="{{route('products.create')}}"
                         //window.location.href="{{route('categories.index')}}";
                     }else{
@@ -328,7 +329,7 @@
                 },
                 error: function(jqXHR, exception) {
                         console.log("AJAX Error: ", jqXHR, exception);
-                    }
+                    },
 
             });
         });

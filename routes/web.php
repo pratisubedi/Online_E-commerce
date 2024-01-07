@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\cartController;
 use App\Http\Controllers\frontController;
 use App\Http\Controllers\shopController;
+use App\Http\Controllers\authController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -35,6 +36,25 @@ Route::get('/admin/login',[AdminLoginController::class,'index'])->name('admin.lo
 //Route for cart page
 Route::get('/cart',[cartController::class,'cart'])->name('Front.cart');
 Route::post('/add-to-cart',[cartController::class,'addToCart'])->name('Front.addToCart');
+Route::post('/update-Cart',[cartController::class,'updateCart'])->name('Front.updateCart');
+Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.deleteCart');
+
+
+
+Route::group(['prefix'=>'account'],function(){
+    Route::group(['middleeare'=>'guest'],function(){
+        //Route  for register and login customer
+        Route::get('/register',[authController::class,'register'])->name('account.register');
+        Route::get('/login',[authController::class,'login'])->name('account.login');
+        Route::post('/processRegister',[authController::class,'processRegister'])->name('account.processRegister');
+        Route::post('/login-authenticate',[authController::class,'authenticate'])->name('account.authenticate');
+    });
+
+    Route::group(['middleware'=>'auth'],function(){
+        Route::get('/profile',[authController::class,'profile'])->name('account.profile');
+    });
+});
+
 
 Route::group(['prefix'=> 'admin'], function () {
     Route::group(['middleware'=>'admin.guest'],function(){

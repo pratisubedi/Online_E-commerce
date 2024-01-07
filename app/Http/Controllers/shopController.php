@@ -85,8 +85,8 @@ class shopController extends Controller
 
         public function products($slug){
             //echo $slug;
-            //$products = Product::where('slug',$slug)->with('product_images')->first();
-            $products = Product::where('slug',$slug)->first();
+            $products = Product::where('slug',$slug)->with('product_images')->first();
+            //$products = Product::where('slug',$slug)->first();
             if($products==null){
                 abort(404);
             }

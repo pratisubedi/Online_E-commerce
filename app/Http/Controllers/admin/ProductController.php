@@ -19,11 +19,11 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ProductController extends Controller
 {
     public function index(Request $request){
-        $products= Product::latest('id');
+        $products= Product::latest('id')->with('product_images')->paginate(5);
         if($request->get('keyword')){
             $products=$products->where('title','like','%'.$request->keyword.'%');
         }
-        $products=$products->paginate(5);
+       // $products=$products->paginate(5);
         $data['products']=$products;
         return view('admin.product.index',$data);
     }
@@ -107,6 +107,47 @@ class ProductController extends Controller
             //     //generating product thumbnail
             //     //for large
             // }
+            // ... Your existing code ...
+
+            if (!empty($request->image_array)) {
+                foreach ($request->image_array as $temp_image_id) {
+                    $productImage = new PoductImage();
+                    $productImage->product_id = $product->id;
+                    $productImage->image = 'Null'; // Use null instead of 'NULL'
+                    $productImage->save();
+
+                     $tempImageInfo = TempImage::find($temp_image_id);
+                     if ($tempImageInfo) {
+                        $extArray = explode('.', $tempImageInfo->name);
+                        $ext = last($extArray);
+
+                        // Set the image name based on product and image ID
+                        $imageName = $product->id . '-' . $productImage->id . '-' . time() . '.' . $ext;
+                        $productImage->image = $imageName;
+                        $productImage->save();
+
+
+
+                        // Large Image
+                        $manager = new ImageManager(Driver::class);
+                        $sourcePath = public_path() . '/temp/' . $tempImageInfo->name;
+                        $destinationPath = public_path() . '/upload/product/large/' . $imageName;
+                        $image = $manager->read($sourcePath);
+                        $image = $image->resizeDown(1400, 1400);
+                        $image->save($destinationPath);
+
+
+                        // Small Image
+
+                        $destPath = public_path() . '/upload/product/small/' . $imageName;
+                        $image = $manager->read($sourcePath);
+                        $image = $image->resize(300, 300);
+                        $image->save($destPath);
+                     }
+                }
+            }
+
+
 
             $request->session()->flash('success', 'Product created successfully done------');
             return response()->json([
@@ -147,7 +188,8 @@ class ProductController extends Controller
 
         $rules = [
             'title' => 'required',
-            'slug' => ['required', Rule::unique('products')->ignore($product->id)],
+            // 'slug' => ['required', Rule::unique('products')->ignore($product->id)],
+            'slug'=>'required|unique:products,slug,'.$product->id.',id',
             'price' => 'required',
             'sku' => ['required', Rule::unique('products')->ignore($product->id)],
             'track_qty' => 'required',

@@ -61,4 +61,58 @@ class cartController extends Controller
        $data['cartContent']=$cartContent;
         return view("Front.cart",$data);
     }
+
+    public function updateCart(Request $request){
+        $rowId=$request->rowId;
+        $qty=$request->qty;
+
+        //Check qty available in stock
+        $itemInfo=Cart::get($rowId);
+        $product=Product::find($itemInfo->id);
+         if($product->track_qty== 'Yes'){
+            if( $qty<= $product->qty){
+                Cart::update( $rowId, $qty);
+                if(Cart::update($rowId,$qty)==true){
+                    $newQty=$product->qty-$qty;
+                    $product=Product::find($product->id);
+                    $product->qty=$newQty;
+                    $product->update();
+                }
+
+                $message='cart updated successfully';
+                $status=true;
+            }else{
+                $message='Requested quantity ('.$qty.') not avaliable in stock';
+                $status=false;
+                session()->flash('error', $message);
+            }
+         }else{
+            Cart::update( $rowId, $qty);
+                $message='cart updated successfully';
+                $status=true;
+                session()->flash('success', $message);
+         }
+        return response()->json([
+            'status'=> $status,
+            'message'=> $message,
+        ]);
+
+    }
+    public function deleteCart(Request $request){
+        $rowId=$request->rowId;
+        $itemInfo=Cart::get($rowId);
+        if($itemInfo==null){
+            session()->flash('error', 'Item not found in cart');
+            return response()->json([
+                "status"=> false,
+                "message"=> 'Item not found in cart',
+            ]);
+        }
+        Cart::remove( $rowId );
+        session()->flash('success', 'Item  successfully deleted from cart');
+            return response()->json([
+                "status"=> true,
+                "message"=> 'Item  successfully deleted from cart',
+            ]);
+    }
 }

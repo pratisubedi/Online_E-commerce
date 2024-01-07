@@ -19,18 +19,18 @@
                 <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner bg-light">
 
-                            {{-- @if($products->product_images)
+                            @if($products->product_images)
                                 @foreach ( $products->product_images as $key=>$productImage)
                                     <div class="carousel-item {{($key==0) ? 'active':''}}">
                                         <img class="w-100 h-100" src="{{asset('uploads/product/large'.$productImage->image)}}" alt="Image">
                                     </div>
                                 @endforeach
-                            @endif --}}
+                            @endif
 
 
-                        <div class="carousel-item active">
+                        {{-- <div class="carousel-item active">
                             <img class="w-100 h-100" src="images/product-2.jpg" alt="Image">
-                        </div>
+                        </div> --}}
                         <div class="carousel-item">
                             <img class="w-100 h-100" src="images/product-3.jpg" alt="Image">
                         </div>
