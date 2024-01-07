@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+Use App\Models\country;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 
@@ -130,7 +131,8 @@ class cartController extends Controller
             return redirect()->route('account.login');
         }
         session()->forget('url.intended');
-
-        return view('Front.checkout');
+        $countries=country::orderBY('id','desc')->get();
+        $data['countries']=$countries;
+        return view('Front.checkout',$data);
     }
 }

@@ -101,8 +101,8 @@
                 <h2>Categories</h2>
             </div>
             <div class="row pb-3">
-                @if(getCategories()->isNotEmpty())
-                @foreach(getCategories() as $category)
+                @if(app('App\Helpers\Helper')->getCategories()->isNotEmpty())
+                @foreach(app('App\Helpers\Helper')->getCategories() as $category)
                 <div class="col-lg-3">
                     <div class="cat-card">
                         <div class="left">
