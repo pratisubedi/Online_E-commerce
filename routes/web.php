@@ -38,9 +38,10 @@ Route::get('/cart',[cartController::class,'cart'])->name('Front.cart');
 Route::post('/add-to-cart',[cartController::class,'addToCart'])->name('Front.addToCart');
 Route::post('/update-Cart',[cartController::class,'updateCart'])->name('Front.updateCart');
 Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.deleteCart');
+Route::get('/checkout',[cartController::class,'checkout'])->name('Front.checkout');
 
-
-
+// Route for user account
+//Route::get('/logout',[authController::class,'logout'])->name('account.logout');
 Route::group(['prefix'=>'account'],function(){
     Route::group(['middleeare'=>'guest'],function(){
         //Route  for register and login customer
@@ -51,10 +52,14 @@ Route::group(['prefix'=>'account'],function(){
     });
 
     Route::group(['middleware'=>'auth'],function(){
+        Route::get('/logout',[authController::class,'logout'])->name('account.logout');
+
         Route::get('/profile',[authController::class,'profile'])->name('account.profile');
     });
 });
 
+
+//Route for admin panel
 
 Route::group(['prefix'=> 'admin'], function () {
     Route::group(['middleware'=>'admin.guest'],function(){

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class cartController extends Controller
 {
@@ -114,5 +115,22 @@ class cartController extends Controller
                 "status"=> true,
                 "message"=> 'Item  successfully deleted from cart',
             ]);
+    }
+
+    public function checkout(){
+        // if cart is empty redirect to cart page
+        if(Cart::count()==0){
+            return redirect()->route('Front.cart');
+        }
+        // if user is not  login
+        if(Auth::check()==false){
+            if(!session()->has('url.intended')){
+                session(['url.intended'=>url()->current()]);
+            }
+            return redirect()->route('account.login');
+        }
+        session()->forget('url.intended');
+
+        return view('Front.checkout');
     }
 }
