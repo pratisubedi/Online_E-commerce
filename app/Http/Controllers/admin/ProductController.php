@@ -188,7 +188,8 @@ class ProductController extends Controller
 
         $rules = [
             'title' => 'required',
-            'slug' => ['required', Rule::unique('products')->ignore($product->id)],
+            // 'slug' => ['required', Rule::unique('products')->ignore($product->id)],
+            'slug'=>'required|unique:products,slug,'.$product->id.',id',
             'price' => 'required',
             'sku' => ['required', Rule::unique('products')->ignore($product->id)],
             'track_qty' => 'required',
