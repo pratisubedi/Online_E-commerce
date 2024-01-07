@@ -104,24 +104,14 @@
                 <div class="card cart-summery">
                     <div class="card-body">
                         <div class="d-flex justify-content-between pb-2">
-                            <div class="h6">Product Name Goes Here X 1</div>
-                            <div class="h6">$100</div>
-                        </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <div class="h6">Product Name Goes Here X 1</div>
-                            <div class="h6">$100</div>
-                        </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <div class="h6">Product Name Goes Here X 1</div>
-                            <div class="h6">$100</div>
-                        </div>
-                        <div class="d-flex justify-content-between pb-2">
-                            <div class="h6">Product Name Goes Here X 1</div>
-                            <div class="h6">$100</div>
+                            @foreach (Cart::content() as $item)
+                            <div class="h6">{{$item->name}} X {{$item->qty}}</div>
+                            <div class="h6">${{$item->price}}</div>
+                            @endforeach
                         </div>
                         <div class="d-flex justify-content-between summery-end">
                             <div class="h6"><strong>Subtotal</strong></div>
-                            <div class="h6"><strong>$400</strong></div>
+                            <div class="h6"><strong>${{Cart::subtotal()}}</strong></div>
                         </div>
                         <div class="d-flex justify-content-between mt-2">
                             <div class="h6"><strong>Shipping</strong></div>
@@ -129,7 +119,7 @@
                         </div>
                         <div class="d-flex justify-content-between mt-2 summery-end">
                             <div class="h5"><strong>Total</strong></div>
-                            <div class="h5"><strong>$420</strong></div>
+                            <div class="h5"><strong>${{Cart::subtotal()}}</strong></div>
                         </div>
                     </div>
                 </div>
