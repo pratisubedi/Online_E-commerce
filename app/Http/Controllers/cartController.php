@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\customerAddress;
+use App\Models\order;
+use App\Models\orderItem;
 use Illuminate\Http\Request;
 use App\Models\Product;
 Use App\Models\country;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class cartController extends Controller
 {
@@ -134,5 +138,96 @@ class cartController extends Controller
         $countries=country::orderBY('id','desc')->get();
         $data['countries']=$countries;
         return view('Front.checkout',$data);
+    }
+
+    public function processCheckout(Request $request){
+
+
+        //Apply validator
+        $rules=[
+            'first_name'=> 'required',
+            'last_name'=> 'required',
+            'email'=> 'required',
+            'address'=> 'required',
+            'city'=> 'required',
+            'state'=> 'required',
+            'zip'=> 'required',
+            'mobile'=> 'required',
+        ];
+        $validator=Validator::make($request->all(),$rules);
+        if($validator->fails()){
+            return response()->json([
+                'status'=> false,
+                'errors'=>$validator->errors(),
+            ]);
+        }
+
+        // Save customer address on Customer_Addresses table
+        $user=Auth::user();
+        customerAddress::updateOrCreate([
+            'user_id'=>$user->id],
+            [
+                'user_id'=> $user->id,
+                'first_name'=> $request->first_name,
+                'last_name'=> $request->last_name,
+                'email'=> $request->email,
+                'address'=> $request->address,
+                'city'=> $request->city,
+                'state'=> $request->state,
+                'zip'=> $request->zip,
+                'Appartment'=> $request->appartment,
+                'Mobile'=> $request->mobile,
+                'country_id'=> $request->country,
+            ]);
+
+
+        // Save orders on orders table
+
+            if($request->payment_method== 'cod'){
+                $shipping=0;
+                $discount=0;
+                $subTotal=Cart::subtotal(2,'.','');
+                $grandTotal=$subTotal+$shipping;
+                $order= new order();
+                $order->subTotal=$subTotal;
+                $order->user_id=$user->id;
+                $order->shipping=$request->customer_id;
+                $order->discount=$discount;
+                $order->grand_total=$grandTotal;
+                $order->first_name=$request->first_name;
+                $order->last_name=$request->last_name;
+                $order->email=$request->email;
+                $order->address=$request->address;
+                $order->city=$request->city;
+                $order->state=$request->state;
+                $order->zip=$request->zip;
+                $order->Appartment=$request->appartment;
+                $order->Mobile=$request->mobile;
+                $order->country_id=$request->country;
+                $order->notes=$request->order_notes;
+                $order->save();
+                //step-4 store order items in order items table
+                foreach(Cart::content() as $item){
+                    $orderItem=new orderItem();
+                    $orderItem->order_id= $order->id;
+                    $orderItem->product_id=$item->id;
+                    $orderItem->name=$item->name;
+                    $orderItem->qty=$item->qty;
+                    $orderItem->price=$item->price;
+                    $orderItem->total= $item->total;
+                    $orderItem->save();
+                }
+                session()->flash('success','You have successfully placed your order');
+
+                return response()->json([
+                    'message'=>'You have successfully placed your order.',
+                    'status'=>true,
+                ]);
+
+            }else{
+
+            }
+
+
     }
 }

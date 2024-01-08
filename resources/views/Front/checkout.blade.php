@@ -1,4 +1,4 @@
-@extends('Front.layout.app');
+@extends('Front.layout.app')
 @section('content')
 <section class="section-5 pt-3 pb-3 mb-3 bg-white">
     <div class="container">
@@ -14,7 +14,9 @@
 
 <section class="section-9 pt-4">
     <div class="container">
-        <form action="" id="orderForm" name="orderForm">
+        <form  id="orderForm" name="orderForm">
+        {{-- <form  action="{{route('Front.processCheckout')}}" method="post"> --}}
+            @csrf
                 <div class="row">
                     <div class="col-md-8">
                         <div class="sub-title">
@@ -27,18 +29,23 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+                                            <p></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <input type="text" name="email" id="email" class="form-control" placeholder="Email">
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
                                     <div class="col-md-12">
@@ -57,37 +64,48 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <textarea name="address" id="address" cols="30" rows="3" placeholder="Address" class="form-control"></textarea>
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <input type="text" name="appartment" id="appartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+                                            <p></p>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <input type="text" name="city" id="city" class="form-control" placeholder="City">
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <input type="text" name="state" id="state" class="form-control" placeholder="State">
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip">
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile No.">
+                                            <p></p>
                                         </div>
+                                        <p></p>
                                     </div>
 
 
@@ -132,11 +150,11 @@
                         <div class="card payment-form ">
                             <h3 class="card-title h5 mb-3">Payment Method</h3>
                             <div class="">
-                                <input checked type="radio" name="paytment_method" value="cod" id="payment_method_one">
+                                <input checked type="radio" name="payment_method" value="cod" id="payment_method_one">
                                 <label for="payment_method_one" class="form-check-label">Cash on Delivery</label>
                             </div>
                             <div class="">
-                                <input type="radio" name="paytment_method" value="cod" id="payment_method_two">
+                                <input type="radio" name="payment_method" value="cod" id="payment_method_two">
                                 <label for="payment_method_two" class="form-check-label">Visa Card </label>
                             </div>
                             <div class="card-body p-0 d-none mt-3" id="card-payment-form">
@@ -172,7 +190,7 @@
 </section>
 @endsection
 @section('customJs')
-    <script>
+    <script type="text/javascript">
         $('#payment_method_one').click(function(){
             if($(this).is(":checked")==true){
                 $('#card-payment-form').addClass('d-none');
@@ -183,17 +201,117 @@
                 $('#card-payment-form').removeClass('d-none');
             }
         });
+function handleFormErrors(errors) {
+    if (errors['first_name']) {
+        $("#first_name").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['first_name']);
+    } else {
+        $("#first_name").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+
+    if (errors['email']) {
+        $("#email").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['email']);
+    } else {
+        $("#email").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+
+    if (errors['last_name']) {
+        $("#last_name").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['last_name']);
+    } else {
+        $("#last_name").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+    if (errors['address']) {
+        $("#address").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['address']);
+    } else {
+        $("#address").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+    if (errors['city']) {
+        $("#city").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['city']);
+    } else {
+        $("#city").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+    if (errors['state']) {
+        $("#state").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['state']);
+    } else {
+        $("#state").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+    if (errors['zip']) {
+        $("#zip").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['zip']);
+    } else {
+        $("#zip").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+    if (errors['mobile']) {
+        $("#mobile").addClass('is-invalid')
+            .siblings('p')
+            .addClass('invalid-feedback').html(errors['mobile']);
+    } else {
+        $("#mobile").removeClass('is-invalid')
+            .siblings('p')
+            .removeClass('invalid-feedback').html('');
+    }
+
+
+
+}
 
         $('#orderForm').submit(function(event){
+            event.preventDefault();
             $.ajax({
-                url:'',
-                type:'post'
-                data:$(this).serializeArray();
-                dataType:'json',
-                success:function(response){
+                url: '{{ route("Front.processCheckout") }}',
+                type: 'post',
+                data: $(this).serializeArray(),
+                dataType: 'json',
+                success: function(response) {
+            console.log('Response:', response);
 
+            if (response && response.hasOwnProperty('status')) {
+                if (response.status === true) {
+                    var success = response.success;
+                    console.log('Registration successful:', success);
+                    // Redirect or perform other actions on success
+                     window.location.href = "{{ route('account.login') }}";
                 }
+
+                var errors = response['errors'];
+                if (errors) {
+                    handleFormErrors(errors);
+                }
+            } else {
+                console.error('Unexpected response structure:', response);
+            }
+        },
+        error: function(jqXHR, exception) {
+            console.error("AJAX Error: ", jqXHR, exception);
+        }
             });
         });
+
     </script>
 @endsection
