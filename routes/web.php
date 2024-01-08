@@ -40,6 +40,7 @@ Route::post('/update-Cart',[cartController::class,'updateCart'])->name('Front.up
 Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.deleteCart');
 Route::get('/checkout',[cartController::class,'checkout'])->name('Front.checkout');
 Route::post('/process-checkout',[cartController::class,'processCheckout'])->name('Front.processCheckout');
+Route::get('/thank/{orderId}',[cartController::class,'thankYou'])->name('Front.thank');
 
 // Route for user account
 //Route::get('/logout',[authController::class,'logout'])->name('account.logout');
