@@ -10,13 +10,11 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        Category::factory(30)->create(); // Corrected class reference
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+            AdminSeed::class,
+            countrySeeder::class,
+        ]);
     }
 }

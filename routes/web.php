@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategory;
+use App\Http\Controllers\admin\shippingController;
 use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\cartController;
@@ -105,7 +106,13 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/products/{brand}/edit',[ProductController::class,'edit'])->name('products.edit');
         Route::get('/get-product',[ProductController::class,'getProducts'])->name('product-getProducts');
 
-
+        //shipping Route
+        Route::get('/shipping/create',[shippingController::class,'create'])->name('shipping.create');
+        Route::post('/shipping/store',[shippingController::class,'store'])->name('shipping.store');
+        Route::get('/shipping/edit/{id}',[shippingController::class,'edit'])->name('shipping.edit');
+        Route::post('/shipping/edit/{id}',[shippingController::class,'update'])->name('shipping.update');
+        Route::delete('/shipping/delete/{id}',[shippingController::class,'destroy'])->name('shiping.destroy');
+        Route::post('/get-order-summary',[cartController::class,'getOrderSummary'])->name('shipping.getOrderSummary');
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');

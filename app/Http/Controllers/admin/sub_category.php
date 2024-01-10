@@ -71,7 +71,7 @@ class sub_category extends Controller
 
     public function update($id, Request $request){
         $subCategory = SubCategory::find($id);
-    
+
         if(empty($subCategory)){
             return response()->json([
                 'status' => false,
@@ -79,14 +79,14 @@ class sub_category extends Controller
                 'notFound' => true
             ]);
         }
-    
+
         $validator = validator::make($request->all(), [
             'name' => 'required',
             'slug' => 'required|unique:sub_categories,slug,'.$subCategory->id.',id',
             'category' => 'required',
             'status' => 'required'
         ]);
-    
+
         if($validator->passes()){
             // Update the existing record instead of creating a new one
             $subCategory->name = $request->name;
@@ -95,9 +95,9 @@ class sub_category extends Controller
             $subCategory->category_id = $request->category;
             $subCategory->showHome = $request->showHome;
             $subCategory->save();
-    
+
             $request->session()->flash('success', 'Subcategory updated successfully');
-    
+
             return response()->json([
                 'status' => true,
                 'message' => 'Subcategory updated successfully'
@@ -109,7 +109,7 @@ class sub_category extends Controller
             ]);
         }
     }
-    
+
     public function destroy($id,Request $request){
         $category=SubCategory::find($id);
         if(empty($category)){
