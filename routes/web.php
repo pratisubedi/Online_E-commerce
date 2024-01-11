@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\BrandsController;
 use App\Http\Controllers\admin\categoryController;
+use App\Http\Controllers\admin\discountController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategory;
@@ -113,6 +114,11 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::post('/shipping/edit/{id}',[shippingController::class,'update'])->name('shipping.update');
         Route::delete('/shipping/delete/{id}',[shippingController::class,'destroy'])->name('shiping.destroy');
         Route::post('/get-order-summary',[cartController::class,'getOrderSummary'])->name('shipping.getOrderSummary');
+
+        //Discount coupons  Route
+        Route::get('/coupons-discount/create',[discountController::class,'create'])->name('coupons.create');
+        Route::get('/coupons-discount/index',[discountController::class,'index'])->name('coupons.index');
+        Route::post('/coupons-discount/store',[discountController::class,'store'])->name('coupons.store');
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');

@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="/admin_assets/plugins/dropzone/min/dropzone.min.css">
 		<link rel="stylesheet" href="/admin_assets/plugins/summernote/summernote-bs4.min.css">
 		<link rel="stylesheet" href="/admin_assets/plugins/select2/css/select2.min.css">
+		<link rel="stylesheet" href="/admin_assets/css/datetimepicker.css">
 		<meta name="csrf-token" content="{{csrf_token()}}">
 	</head>
 	<body class="hold-transition sidebar-mini">
@@ -85,6 +86,7 @@
 		<script src="/admin_assets/plugins/dropzone/min/dropzone.min.js"></script>
 		<script src="/admin_assets/plugins/summernote/summernote-bs4.min.js"></script>
 		<script src="/admin_assets/plugins/select2/js/select2.min.js"></script>
+		<script src="/admin_assets/js/datetimepicker.js"></script>
 
 		@yield('customejs')
 
