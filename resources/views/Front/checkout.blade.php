@@ -138,8 +138,12 @@
                                     <div class="h6"><strong>${{Cart::subtotal()}}</strong></div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-2">
+                                    <div class="h6"><strong>Discount Amount</strong></div>
+                                    <div class="h6"><strong id="discountAmount">${{number_format($discount,2)}}</strong></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
                                     <div class="h6"><strong>Shipping</strong></div>
-                                    <div class="h6"><strong id="shippingAmount">${{number_format($totalShippingCharges,2)}}</strong></div>
+                                    <div class="h6"><strong name="shippingAmount" id="shippingAmount">${{number_format($totalShippingCharges,2)}}</strong></div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-2 summery-end">
                                     <div class="h5"><strong>Total</strong></div>
@@ -147,7 +151,17 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="input-group apply-coupan mt-4">
+                            <input type="text" placeholder="Coupon Code" class="form-control" name="discount_code" id="discount_code" value="{{ old('discount_code') }}">
+                            <button class="btn btn-dark" type="button" id="apply_discount">Apply Coupon</button>
+                            <p></p>
+                        </div>
+                        @if (Session::has('code'))
+                            <div class="mt-4">
+                                <strong>{{Session::get('code')->code}}</strong>
+                                <a  class="btn btn-sm btn-danger" id="remove_discount"><i class="fa fa-times"></i></a>
+                            </div>
+                        @endif
                         <div class="card payment-form ">
                             <h3 class="card-title h5 mb-3">Payment Method</h3>
                             <div class="">
@@ -192,6 +206,50 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
+
+    //discoount coupons apply
+        $("#apply_discount").click(function(){
+            $.ajax({
+                url:'{{route("front.applyDiscount")}}',
+                data:{code:$("#discount_code").val(),country_id:$("#country").val()},
+                dataType:'json',
+                type:'post',
+                success:function(response){
+                    if(response.status==true){
+                        $('#shippingAmount').html('$'+response.totalShippingCharges);
+                        $('#grandTotal').html('$'+response.grandTotal);
+                        $('#discountAmount').html('$'+response.discount);
+                    }
+                    else{
+                        $("#discount_code").addClass('is-discount_code')
+                        .siblings('p')
+                        .addClass('invalid-feedback').html(message);
+                    }
+                },
+            });
+        });
+        $("#remove_discount").click(function(){
+            $.ajax({
+                url:'{{route("front.remove-coupons")}}',
+                data:{country_id:$("#country").val()},
+                dataType:'json',
+                type:'post',
+                success:function(response){
+                    if(response.status==true){
+                        $('#shippingAmount').html('$'+response.totalShippingCharges);
+                        $('#grandTotal').html('$'+response.grandTotal);
+                        $('#discountAmount').html('$'+response.discount);
+                    }
+                    else{
+                        $("#discount_code").addClass('is-discount_code')
+                        .siblings('p')
+                        .addClass('invalid-feedback').html(message);
+                    }
+                },
+            });
+        });
+
+
         $('#payment_method_one').click(function(){
             if($(this).is(":checked")==true){
                 $('#card-payment-form').addClass('d-none');

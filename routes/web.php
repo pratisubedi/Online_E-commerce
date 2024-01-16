@@ -44,6 +44,10 @@ Route::get('/checkout',[cartController::class,'checkout'])->name('Front.checkout
 Route::post('/process-checkout',[cartController::class,'processCheckout'])->name('Front.processCheckout');
 Route::get('/thank/{orderId}',[cartController::class,'thankYou'])->name('Front.thank');
 
+//apply discount coupons Route
+Route::post('/apply-discount',[cartController::class,'applyDiscount'])->name('front.applyDiscount');
+Route::post('/remov-coupons',[cartController::class,'removeCoupons'])->name('front.remove-coupons');
+
 // Route for user account
 //Route::get('/logout',[authController::class,'logout'])->name('account.logout');
 Route::group(['prefix'=>'account'],function(){
@@ -119,6 +123,9 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/coupons-discount/create',[discountController::class,'create'])->name('coupons.create');
         Route::get('/coupons-discount/index',[discountController::class,'index'])->name('coupons.index');
         Route::post('/coupons-discount/store',[discountController::class,'store'])->name('coupons.store');
+        Route::get('/coupons-discount/edit/{id}',[discountController::class,'edit'])->name('coupons.edit');
+        Route::post('/coupons-discount/update/{id}',[discountController::class,'update'])->name('coupons.update');
+        Route::delete('/coupons-discount/delete/{id}',[discountController::class,'destroy'])->name('coupons.delete');
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');

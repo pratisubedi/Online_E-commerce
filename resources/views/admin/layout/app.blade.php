@@ -10,6 +10,7 @@
 		{{-- <link rel="stylesheet" href="/admin-assets/plugins\fontawesome-free\css\all.min.css">
 		<!-- Theme style --> --}}
 		<link rel="stylesheet" href="/admin_assets/css/adminlte.min.css">
+		<link rel="stylesheet" href="/admin_assets/css/custom.css">
 		<link rel="stylesheet" href="/admin_assets/plugins/dropzone/min/dropzone.min.css">
 		<link rel="stylesheet" href="/admin_assets/plugins/summernote/summernote-bs4.min.css">
 		<link rel="stylesheet" href="/admin_assets/plugins/select2/css/select2.min.css">

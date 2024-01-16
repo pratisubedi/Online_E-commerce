@@ -45,7 +45,7 @@
                             <th style="color: green;">Code</th>
                             <th style="color: green;">Name</th>
                             <th style="color: green;">description</th>
-                            <th style="color: green;">Max uses</th>
+                            <th style="color: rgb(4, 128, 0);">Max uses</th>
                             <th style="color: green;">Max users uses</th>
                             <th style="color: green;">Type</th>
                             <th style="color: green;">Discount Amount</th>
@@ -53,7 +53,6 @@
                             <th style="color: green;">Status</th>
                             <th style="color: green;">Start Date</th>
                             <th style="color: green;">Expire Date</th>
-                            <th style="color: green;" width="100">Status</th>
                             <th style="color: green;" width="100">Action</th>
                         </tr>
                     </thead>
@@ -106,16 +105,16 @@
                                 <td>{{$discountCoupon->starts_at}}</td>
                                 <td>{{$discountCoupon->expire_at}}</td>
                                 <td>
-                                    {{-- <a href="{{route('categories.edit',$category->id)}}">
+                                    <a href="{{route('coupons.edit',$discountCoupon->id)}}">
                                         <svg class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                         </svg>
                                     </a>
-                                    <a href="#" onclick="deleteCategory({{$category->id}})" class="text-danger w-4 h-4 mr-1">
+                                    <a href="#" onclick="deleteCategory({{$discountCoupon->id}})" class="text-danger w-4 h-4 mr-1">
                                         <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                                           </svg>
-                                    </a> --}}
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -131,26 +130,26 @@
     <!-- /.card -->
 </section>
 <script>
-    // function deleteCategory(id){
-    //     var url='{{route("categories.delete","ID")}}';
-    //     var newUrl=url.replace("ID",id);
-    //     if(confirm("Are you sur you want to delete")){
-    //         $.ajax({
-    //             url:newUrl,
-    //             type:'delete',
-    //             data:{},
-    //             dataType:'json',
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //             },
-    //             success:function(response){
-    //                 if(response["status"]){
-    //                     window.location.href="{{route('categories.index')}}";
-    //                 }
-    //             }
-    //         });
-    //     }
-    // }
+    function deleteCategory(id){
+        var url='{{route("coupons.delete","ID")}}';
+        var newUrl=url.replace("ID",id);
+        if(confirm("Are you sur you want to delete")){
+            $.ajax({
+                url:newUrl,
+                type:'delete',
+                data:{},
+                dataType:'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function(response){
+                    if(response["status"]){
+                        window.location.href="{{route('coupons.index')}}";
+                    }
+                }
+            });
+        }
+    }
 </script>
 @endsection
 

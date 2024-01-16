@@ -71,7 +71,6 @@
                                             <th width="60">ID</th>
                                             <th>Country Name</th>
                                             <th>Shipping Charges</th>
-                                            <th width="100">Status</th>
                                             <th width="100">Action</th>
                                         </tr>
                                     </thead>
