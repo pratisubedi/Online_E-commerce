@@ -148,7 +148,9 @@ class cartController extends Controller
         }
         $countries=country::orderBY('id','desc')->get();
 
-
+        if($countries->country_id==null){
+            $countries->country_id= 0;
+        }
         //Shipping calculate
         $userCountry=$customerAddress->country_id;
         $shippingInfo=shipping::where('country_id',$userCountry)->first();
@@ -252,6 +254,8 @@ class cartController extends Controller
                 $order->coupon_code=$coupon_code;
                 $order->coupon_code_id=$coupon_code_id;
                 $order->grand_total=$grandTotal;
+                $order->payment_status='not-paid';
+                $order->status='pending';
                 $order->first_name=$request->first_name;
                 $order->last_name=$request->last_name;
                 $order->email=$request->email;
@@ -388,7 +392,36 @@ class cartController extends Controller
               ]);
             }
         }
-
+        //Validate how many times coupon code used
+        if($code->max_uses>0){
+            $couponUsed=order::where('coupon_code_id',$code->id)->count();
+            if($couponUsed >=$code->max_uses){
+                return response()->json([
+                    'status'=> false,
+                    'message'=> 'Coupons  used times finished',
+                ]);
+            }
+        }
+        //Validate how many times user used this  coupon code
+        if($code->max_uses_user> 0){
+            $couponsUsedByUser=order::where(['coupon_code_id'=>$code->id,'user_id'=>Auth::user()->id])->count();
+            if($couponsUsedByUser >=$code->max_uses_user){
+                return response()->json([
+                    'status'=> false,
+                    'message'=> 'You have already used this coupons',
+                ]);
+            }
+        }
+        //Min Amount check
+        $subtotal=Cart::subtotal(2,'.','');
+        if($code->min_amount>0){
+            if($subtotal<$code->min_amount){
+                return response()->json([
+                    'status'=> false,
+                    'message' => 'You must shop above ' . $code->min_amount . ' amount to use coupons',
+                ]);
+            }
+        }
         session()->put('code',$code);
         return $this->getOrderSummary($request);
     }

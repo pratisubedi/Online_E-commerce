@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\BrandsController;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\discountController;
 use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\admin\orderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategory;
 use App\Http\Controllers\admin\shippingController;
@@ -63,6 +64,8 @@ Route::group(['prefix'=>'account'],function(){
         Route::get('/logout',[authController::class,'logout'])->name('account.logout');
 
         Route::get('/profile',[authController::class,'profile'])->name('account.profile');
+        Route::get('/myorder',[authController::class,'order'])->name('account.myOrder');
+        Route::get('/order-detail/{orderId}',[authController::class,'order_detail'])->name('account.order_detail');
     });
 });
 
@@ -126,6 +129,13 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/coupons-discount/edit/{id}',[discountController::class,'edit'])->name('coupons.edit');
         Route::post('/coupons-discount/update/{id}',[discountController::class,'update'])->name('coupons.update');
         Route::delete('/coupons-discount/delete/{id}',[discountController::class,'destroy'])->name('coupons.delete');
+
+
+        //order routes
+        Route::get('/orders',[orderController::class,'index'])->name('orders.index');
+        Route::get('/orders/{id}',[orderController::class,'detail'])->name('order.detail');
+        Route::post('/order/status-change/{id}',[orderController::class,'changeOderStataus'])->name('order.changeOderStataus');
+
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');
