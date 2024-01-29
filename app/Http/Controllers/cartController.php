@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\orderEmail;
 use App\Models\couponsModel;
 use App\Models\customerAddress;
 use App\Models\order;
@@ -14,6 +15,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
 use Session;
 
 class cartController extends Controller
@@ -143,17 +145,12 @@ class cartController extends Controller
         $id=Auth::user()->id;
 
         $customerAddress = CustomerAddress::where('user_id', $id)->first();
-        if($customerAddress==null){
-
-        }
         $countries=country::orderBY('id','desc')->get();
 
-        if($countries->country_id==null){
-            $countries->country_id= 0;
-        }
         //Shipping calculate
         $userCountry=$customerAddress->country_id;
         $shippingInfo=shipping::where('country_id',$userCountry)->first();
+        // dd($shippingInfo);
         //shipping charge
         $totalqty=0;
         $totalShippingCharges=0;
@@ -251,8 +248,8 @@ class cartController extends Controller
                 $order->user_id=$user->id;
                 $order->shipping=$totalShippingCharges;
                 $order->discount=$discount;
-                $order->coupon_code=$coupon_code;
-                $order->coupon_code_id=$coupon_code_id;
+                $order->coupon_code='null';
+                $order->coupon_code_id='0';
                 $order->grand_total=$grandTotal;
                 $order->payment_status='not-paid';
                 $order->status='pending';
@@ -279,6 +276,9 @@ class cartController extends Controller
                     $orderItem->total= $item->total;
                     $orderItem->save();
                 }
+                // send order email
+                app('App\Helpers\Helper')->orderEmail($order->id);
+                //app('App\Mail')->orderEmail($order->id);
                 Cart::destroy();
                 Session::forget('code');
                 session()->flash('success','You have successfully placed your order');

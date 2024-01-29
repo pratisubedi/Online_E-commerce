@@ -133,7 +133,7 @@ class ProductController extends Controller
                         $sourcePath = public_path() . '/temp/' . $tempImageInfo->name;
                         $destinationPath = public_path() . '/upload/product/large/' . $imageName;
                         $image = $manager->read($sourcePath);
-                        $image = $image->resizeDown(1400, 1400);
+                        $image = $image->resizeDown(1080, 1080);
                         $image->save($destinationPath);
 
 

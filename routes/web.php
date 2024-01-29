@@ -15,6 +15,7 @@ use App\Http\Controllers\cartController;
 use App\Http\Controllers\frontController;
 use App\Http\Controllers\shopController;
 use App\Http\Controllers\authController;
+use App\Mail\orderEmail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -29,6 +30,9 @@ use Illuminate\Support\Str;
 |
 */
 
+Route::get("/test", function () {
+    app('App\Helpers\Helper')->orderEmail(1);
+});
 
 //Route for frontend shop page
 Route::get('/',[frontController::class,'index'])->name('Front.home');
@@ -135,6 +139,9 @@ Route::group(['prefix'=> 'admin'], function () {
         Route::get('/orders',[orderController::class,'index'])->name('orders.index');
         Route::get('/orders/{id}',[orderController::class,'detail'])->name('order.detail');
         Route::post('/order/status-change/{id}',[orderController::class,'changeOderStataus'])->name('order.changeOderStataus');
+
+        //send InvoiceEmail route
+        Route::post('/sendInvoiceEmail/{orderId}',[orderController::class,'sendInvoiceEmail'])->name('order.sendInvoiceEmail');
 
 
         //temp-image.create

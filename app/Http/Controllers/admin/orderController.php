@@ -42,4 +42,7 @@ class orderController extends Controller
             'message'=> 'Order Status changed Successfully',
         ]);
     }
+    public function sendInvoiceEmail(Request $request, $orderId){
+        echo 'hello invoice ';
+    }
 }

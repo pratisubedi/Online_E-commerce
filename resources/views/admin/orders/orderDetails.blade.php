@@ -125,16 +125,19 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="h4 mb-3">Send Inovice Email</h2>
-                        <div class="mb-3">
-                            <select name="status" id="status" class="form-control">
-                                <option value="">Customer</option>
-                                <option value="">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <button class="btn btn-primary">Send</button>
-                        </div>
+                        <form action="" method="post" name="sendInvoiceEmail" id="sendInvoiceEmail">
+                            @csrf
+                            <h2 class="h4 mb-3">Send Inovice Email</h2>
+                            <div class="mb-3">
+                                <select name="user" id="user" class="form-control">
+                                    <option value="">Customer</option>
+                                    <option value="">Admin</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button  class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -160,6 +163,18 @@
                 dataType:'json',
                 success:function(response){
                     window.location.href='{{route("order.detail",$orders->id)}}'
+                }
+            });
+       });
+       $('#sendInvoiceEmail').submit(function(event){
+            event.preventDefault();
+            $.ajax({
+                url:'{{route("order.sendInvoiceEmail",$orders->id)}}',
+                type:'post',
+                data:$(this).serializeArray(),
+                dataType:'json',
+                success:function(response){
+                    // window.location.href='{{route("order.detail",$orders->id)}}'
                 }
             });
        });
