@@ -97,7 +97,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="min_amount" id="min_amount">Discount Amount</label>
+                                    <label for="min_amount" id="min_amount">Minimum Amount</label>
                                     <input type="text"  name="min_amount" id="min_amount"  class="form-control" placeholder="Minimum amount" value="{{ old('max_uses') }}">
                                     <p  class="errors"></p>
                                 </div>

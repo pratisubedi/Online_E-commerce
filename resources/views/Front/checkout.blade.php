@@ -156,12 +156,14 @@
                             <button class="btn btn-dark" type="button" id="apply_discount">Apply Coupon</button>
                             <p></p>
                         </div>
-                        @if (Session::has('code'))
-                            <div class="mt-4">
-                                <strong>{{Session::get('code')->code}}</strong>
-                                <a  class="btn btn-sm btn-danger" id="remove_discount"><i class="fa fa-times"></i></a>
-                            </div>
-                        @endif
+                        <div id="discount-response-wrapper">
+                            @if (Session::has('code'))
+                                <div class="mt-4">
+                                    <strong>{{Session::get('code')->code}}</strong>
+                                    <a  class="btn btn-sm btn-danger" id="remove_discount"><i class="fa fa-times"></i></a>
+                                </div>
+                             @endif
+                        </div>
                         <div class="card payment-form ">
                             <h3 class="card-title h5 mb-3">Payment Method</h3>
                             <div class="">
@@ -221,9 +223,7 @@
                         $('#discountAmount').html('$'+response.discount);
                     }
                     else{
-                        $("#discount_code").addClass('is-discount_code')
-                        .siblings('p')
-                        .addClass('invalid-feedback').html(message);
+                        $("#discount-response-wrapper").html("<span class='text-danger'>"+response.message+"</span>")
                     }
                 },
             });
@@ -241,9 +241,10 @@
                         $('#discountAmount').html('$'+response.discount);
                     }
                     else{
-                        $("#discount_code").addClass('is-discount_code')
-                        .siblings('p')
-                        .addClass('invalid-feedback').html(message);
+                        $("#discount-response-wrapper").html("<span class='text-danger'>"+response.message+"</span>")
+                        // $("#discount_code").addClass('is-discount_code')
+                        // .siblings('p')
+                        // .addClass('invalid-feedback').html(message);
                     }
                 },
             });

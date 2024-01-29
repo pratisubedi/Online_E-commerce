@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\orderEmail;
 use App\Models\couponsModel;
 use App\Models\customerAddress;
 use App\Models\order;
@@ -14,6 +15,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
 use Session;
 
 class cartController extends Controller
@@ -143,15 +145,12 @@ class cartController extends Controller
         $id=Auth::user()->id;
 
         $customerAddress = CustomerAddress::where('user_id', $id)->first();
-        if($customerAddress==null){
-
-        }
         $countries=country::orderBY('id','desc')->get();
-
 
         //Shipping calculate
         $userCountry=$customerAddress->country_id;
         $shippingInfo=shipping::where('country_id',$userCountry)->first();
+        // dd($shippingInfo);
         //shipping charge
         $totalqty=0;
         $totalShippingCharges=0;
@@ -249,9 +248,11 @@ class cartController extends Controller
                 $order->user_id=$user->id;
                 $order->shipping=$totalShippingCharges;
                 $order->discount=$discount;
-                $order->coupon_code=$coupon_code;
-                $order->coupon_code_id=$coupon_code_id;
+                $order->coupon_code='null';
+                $order->coupon_code_id='0';
                 $order->grand_total=$grandTotal;
+                $order->payment_status='not-paid';
+                $order->status='pending';
                 $order->first_name=$request->first_name;
                 $order->last_name=$request->last_name;
                 $order->email=$request->email;
@@ -275,6 +276,9 @@ class cartController extends Controller
                     $orderItem->total= $item->total;
                     $orderItem->save();
                 }
+                // send order email
+                app('App\Helpers\Helper')->orderEmail($order->id);
+                //app('App\Mail')->orderEmail($order->id);
                 Cart::destroy();
                 Session::forget('code');
                 session()->flash('success','You have successfully placed your order');
@@ -388,7 +392,36 @@ class cartController extends Controller
               ]);
             }
         }
-
+        //Validate how many times coupon code used
+        if($code->max_uses>0){
+            $couponUsed=order::where('coupon_code_id',$code->id)->count();
+            if($couponUsed >=$code->max_uses){
+                return response()->json([
+                    'status'=> false,
+                    'message'=> 'Coupons  used times finished',
+                ]);
+            }
+        }
+        //Validate how many times user used this  coupon code
+        if($code->max_uses_user> 0){
+            $couponsUsedByUser=order::where(['coupon_code_id'=>$code->id,'user_id'=>Auth::user()->id])->count();
+            if($couponsUsedByUser >=$code->max_uses_user){
+                return response()->json([
+                    'status'=> false,
+                    'message'=> 'You have already used this coupons',
+                ]);
+            }
+        }
+        //Min Amount check
+        $subtotal=Cart::subtotal(2,'.','');
+        if($code->min_amount>0){
+            if($subtotal<$code->min_amount){
+                return response()->json([
+                    'status'=> false,
+                    'message' => 'You must shop above ' . $code->min_amount . ' amount to use coupons',
+                ]);
+            }
+        }
         session()->put('code',$code);
         return $this->getOrderSummary($request);
     }

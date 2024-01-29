@@ -69,6 +69,7 @@
                                     <thead>
                                         <tr>
                                             <th width="60">ID</th>
+                                            <th width="60">Country Id</th>
                                             <th>Country Name</th>
                                             <th>Shipping Charges</th>
                                             <th width="100">Action</th>
@@ -85,6 +86,7 @@
                                             @foreach ($shippingCharge as $shipping)
                                             <tr>
                                                 <td>{{$shipping->id}}</td>
+                                                <td>{{$shipping->country_id}}</td>
                                                 <td>{{($shipping->country_id=='rest_of_world') ? 'Rest of the world' : $shipping->name}}</td>
                                                 <td>${{$shipping->amount}}</td>
                                                 <td>
