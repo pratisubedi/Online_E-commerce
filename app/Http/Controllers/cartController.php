@@ -277,7 +277,7 @@ class cartController extends Controller
                     $orderItem->save();
                 }
                 // send order email
-                app('App\Helpers\Helper')->orderEmail($order->id);
+                app('App\Helpers\Helper')->orderEmail($order->id,'customer');
                 //app('App\Mail')->orderEmail($order->id);
                 Cart::destroy();
                 Session::forget('code');

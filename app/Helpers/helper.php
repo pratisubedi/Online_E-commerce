@@ -16,13 +16,21 @@ class Helper{
     public function getProductImage($productId){
         return PoductImage::where('product_id', $productId)->first();
     }
-    public function orderEmail($orderId){
+    public function orderEmail($orderId, $userType='customer'){
         $order=order::where('id', $orderId)->with('items')->first();
+        if($userType=='customer'){
+            $subject='Thanks  for your order.';
+            $email=$order->email;
+        }else{
+            $subject='You have a recevied an order';
+            $email=env('ADMIN_EMAIL');
+        }
         $mailData=[
-            'subject'=>'Thanks  for your order.',
+            'subject'=>$subject,
             'order'=> $order,
+            'userType'=>$userType,
         ];
-        Mail::to($order->email)->send(new orderEmail($mailData));
+        Mail::to($email)->send(new orderEmail($mailData));
 
     }
 }
