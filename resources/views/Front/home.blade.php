@@ -147,7 +147,7 @@
                                             <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
                                         @endif
                                         {{-- <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a> --}}
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
+                                    <a onclick="addTowishList({{$product->id}})" class="whishlist" href="javascript:void(0);"><i class="far fa-heart"></i></a>
 
                                     <div class="product-action">
                                         <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
@@ -192,7 +192,7 @@
                                         @else
                                             <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
                                         @endif
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
+                                        <a onclick="addTowishList({{$product->id}})" class="whishlist" href="javascript:void(0);"><i class="far fa-heart"></i></a>
 
                                     <div class="product-action">
                                         <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{$product->id}})">
