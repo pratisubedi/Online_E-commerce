@@ -1,14 +1,14 @@
 @extends('admin.layout.app')
 @section('content')
     <!-- Content Header (Page header) -->
-<section class="content-header">					
+<section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1>Dashboard</h1>
             </div>
             <div class="col-sm-6">
-                
+
             </div>
         </div>
     </div>
@@ -19,10 +19,10 @@
     <!-- Default box -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-6">							
+            <div class="col-lg-4 col-6">
                 <div class="small-box card">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{$totalOrder}}</h3>
                         <p>Total Orders</p>
                     </div>
                     <div class="icon">
@@ -31,11 +31,11 @@
                     <a href="#" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-6">							
+
+            <div class="col-lg-4 col-6">
                 <div class="small-box card">
                     <div class="inner">
-                        <h3>50</h3>
+                        <h3>{{$totalCustomer}}</h3>
                         <p>Total Customers</p>
                     </div>
                     <div class="icon">
@@ -44,8 +44,8 @@
                     <a href="#" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-6">							
+
+            <div class="col-lg-4 col-6">
                 <div class="small-box card">
                     <div class="inner">
                         <h3>$1000</h3>
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-    </div>					
+    </div>
     <!-- /.card -->
 </section>
 <!-- /.content -->
@@ -66,5 +66,5 @@
 
 @section('customjs')
 @stack('js')
-    
+
 @endsection

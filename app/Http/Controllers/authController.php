@@ -69,7 +69,9 @@ class authController extends Controller
         }
     }
     public function profile(){
-        return view('Front.Account.profile');
+        $profileInformations=User::where('id',Auth::user()->id)->first();
+        $data['profileInformations']=$profileInformations;
+        return view('Front.Account.profile',$data);
     }
 
     public function logout(){
@@ -115,6 +117,35 @@ class authController extends Controller
             session()->flash('success','Product removed successfully from wishlist.');
             return response()->json([
                 'status'=>true,
+            ]);
+        }
+    }
+
+    public function profileUpdate(Request $request){
+        $userId=Auth::user()->id;
+        $validator=Validator::make($request->all(),[
+            'name'=>'required',
+            'email'=>'required|email|unique:users,email,'.$userId.',id',
+            'phone'=>'required'
+        ]);
+
+        if($validator->passes()){
+            $id=Auth::user()->id;
+            $user=User::where('id',$id)->first();
+            $user->name=$request->name;
+            $user->email=$request->email;
+            $user->phone=$request->phone;
+            $user->update();
+
+            session()->flash('success','Profile update successfully');
+            return response()->json([
+                'status'=>true,
+                'message'=>'user profile update successfully.',
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'errors'=>$validator->errors(),
             ]);
         }
     }

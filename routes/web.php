@@ -9,8 +9,10 @@ use App\Http\Controllers\admin\orderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategory;
 use App\Http\Controllers\admin\shippingController;
+use App\Http\Controllers\admin\staticPagesController;
 use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
+use App\Http\Controllers\admin\userController;
 use App\Http\Controllers\cartController;
 use App\Http\Controllers\frontController;
 use App\Http\Controllers\shopController;
@@ -76,6 +78,7 @@ Route::group(['prefix'=>'account'],function(){
         Route::get('/order-detail/{orderId}',[authController::class,'order_detail'])->name('account.order_detail');
         Route::get('/my-wishlist',[authController::class,'wishList'])->name('account.wishlist');
         Route::post('/remove-wishlist',[authController::class,'removeProductWishlist'])->name('account.removeProductWishlist');
+        Route::post('/profile-update',[authController::class,'profileUpdate'])->name('account.profileupdate');
     });
 });
 
@@ -149,6 +152,21 @@ Route::group(['prefix'=> 'admin'], function () {
         //send InvoiceEmail route
         Route::post('/sendInvoiceEmail/{orderId}',[orderController::class,'sendInvoiceEmail'])->name('order.sendInvoiceEmail');
 
+        //user list and edit route
+        Route::get('/user-list',[userController::class,'index'])->name('users.list');
+        Route::get('/user-create',[userController::class,'create'])->name('users.create');
+        Route::post('/user-store',[userController::class,'store'])->name('users.store');
+        Route::get('/user-edit/{id}',[userController::class,'edit'])->name('users.edit');
+        Route::put('/user-update/{id}',[userController::class,'updateUser'])->name('users.updateUser');
+        Route::delete('/user-delete/{id}',[userController::class,'deleteUser'])->name('users.delete');
+
+        //Static pages route
+        Route::get('/static-Pages',[staticPagesController::class,'index'])->name('staticPage.index');
+        Route::get('/static-pages-create',[staticPagesController::class,'create'])->name('staticPage.create');
+        Route::post('/static-pages-create',[staticPagesController::class,'store'])->name('staticPage.store');
+        Route::get('/static-pages-edit/{id}',[staticPagesController::class,'edit'])->name('staticPage.edit');
+        Route::put('/static-pages-update/{id}',[staticPagesController::class,'update'])->name('staticPage.update');
+        Route::delete('/static-pages-delete/{id}',[staticPagesController::class,'destroy'])->name('staticPage.destory');
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');
