@@ -50,6 +50,7 @@ Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.de
 Route::get('/checkout',[cartController::class,'checkout'])->name('Front.checkout');
 Route::post('/process-checkout',[cartController::class,'processCheckout'])->name('Front.processCheckout');
 Route::get('/thank/{orderId}',[cartController::class,'thankYou'])->name('Front.thank');
+Route::get('/page/{slug}',[frontController::class,'page'])->name('front.page');
 
 //apply discount coupons Route
 Route::post('/apply-discount',[cartController::class,'applyDiscount'])->name('front.applyDiscount');
@@ -79,6 +80,8 @@ Route::group(['prefix'=>'account'],function(){
         Route::get('/my-wishlist',[authController::class,'wishList'])->name('account.wishlist');
         Route::post('/remove-wishlist',[authController::class,'removeProductWishlist'])->name('account.removeProductWishlist');
         Route::post('/profile-update',[authController::class,'profileUpdate'])->name('account.profileupdate');
+        Route::get('/change-password',[authController::class,'showchangePassword'])->name('account.showchangePassword');
+        Route::post('/change-password',[authController::class,'changePassword'])->name('account.changePassword');
     });
 });
 

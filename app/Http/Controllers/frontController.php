@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\staticPage;
 use App\Models\wishlist;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
@@ -51,6 +52,16 @@ class frontController extends Controller
         return response()->json([
             'status'=>true,
             'message'=>'<div class="alert alert-success"><strong>"'.$product->title.'"</strong>Product added in wishList</div>',
+        ]);
+    }
+
+    public function page($slug){
+        $page=staticPage::where('slug',$slug)->first();
+        if($page==null){
+            abort(404);
+        }
+        return view('Front.layout.page',[
+            'page'=>$page,
         ]);
     }
 }

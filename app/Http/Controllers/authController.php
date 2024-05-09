@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\wishlist;
 use Illuminate\Http\Request;
 use Validator;
+use Hash;
 use  Illuminate\Support\Facades\Auth;
 class authController extends Controller
 {
@@ -141,6 +142,41 @@ class authController extends Controller
             return response()->json([
                 'status'=>true,
                 'message'=>'user profile update successfully.',
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'errors'=>$validator->errors(),
+            ]);
+        }
+    }
+
+    public function showchangePassword(){
+        return view('Front.Account.changePassword');
+    }
+
+    public function changePassword(Request $request){
+        $validator=validator::make($request->all(),[
+            'old_password'=>'required',
+            'new_password'=>'required|min:3|same:confirm_password',
+            'confirm_password'=>'required',
+        ]);
+
+        if($validator->passes()){
+            $user=User::select('id','password')->where('id',Auth::user()->id)->first();
+            if(!Hash::check($request->old_password, $user->password)){
+                session()->flash('error','Your old password is incorrect, please try again.');
+                return response()->json([
+                    'status'=>true,
+                ]);
+            }
+            User::where('id',$user->id)->update([
+                'password'=>Hash::make($request->new_password),
+            ]);
+
+            session()->flash('success','You have successfully changed your password');
+            return response()->json([
+                'status'=>true,
             ]);
         }else{
             return response()->json([

@@ -148,7 +148,11 @@ class cartController extends Controller
         $countries=country::orderBY('id','desc')->get();
 
         //Shipping calculate
-        $userCountry=$customerAddress->country_id;
+        $userCountry = $customerAddress->country_id ?? 1;
+        //$userCountry=$customerAddress->country_id;
+        if($userCountry==NULL){
+            $userCountry=1;
+        }
         $shippingInfo=shipping::where('country_id',$userCountry)->first();
         // dd($shippingInfo);
         //shipping charge

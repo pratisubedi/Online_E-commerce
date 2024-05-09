@@ -4,6 +4,7 @@ use App\Mail\orderEmail;
 use App\Models\Category;
 use App\Models\order;
 use App\Models\PoductImage;
+use App\Models\staticPage;
 use Illuminate\Support\Facades\Mail;
 
 class Helper{
@@ -32,6 +33,12 @@ class Helper{
         ];
         Mail::to($email)->send(new orderEmail($mailData));
 
+    }
+
+    function staticPage(){
+        $pages=staticPage::orderBy('name','ASC')->get();
+
+        return $pages;
     }
 }
 

@@ -61,7 +61,11 @@
                                 <td>{{$page->id}}</td>
                                 <td>{{$page->name}}</td>
                                 <td>{{$page->slug}}</td>
-                                <td>{{$page->content}}</td>
+                                <td>
+                                    @php
+                                        $htmlContent=htmlspecialchars_decode($page->content);
+                                        print_r($htmlContent);
+                                     @endphp</td>
                                 <td>
                                     <a href="{{route('staticPage.edit',$page->id)}}">
                                         <svg class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
