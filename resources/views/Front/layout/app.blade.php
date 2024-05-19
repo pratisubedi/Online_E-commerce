@@ -166,7 +166,7 @@
       	</nav>
   	</div>
 </header>
-<main>
+<main style="background-color: darkgreen;">
     @yield('content')
 </main>
 <footer class="bg-dark mt-5">
