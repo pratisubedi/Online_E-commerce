@@ -206,10 +206,11 @@
 </section>
 @endsection
 @section('customJs')
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 <script>
     var config = {
         // replace the publicKey with yours
-        "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+        "publicKey": "test_public_key_462ec6c4685d43ce8952b2f08b3e826f",
         "productIdentity": "1234567890",
         "productName": "Dragon",
         "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
@@ -420,4 +421,5 @@ function handleFormErrors(errors) {
             });
         });
     </script>
+
 @endsection

@@ -128,48 +128,59 @@ class cartController extends Controller
             ]);
     }
 
-    public function checkout(){
+    public function checkout() {
         // if cart is empty redirect to cart page
-        $discount=0;
-        if(Cart::count()==0){
+        $discount = 0;
+        if (Cart::count() == 0) {
             return redirect()->route('Front.cart');
         }
-        // if user is not  login
-        if(Auth::check()==false){
-            if(!session()->has('url.intended')){
-                session(['url.intended'=>url()->current()]);
+
+        // if user is not login
+        if (!Auth::check()) {
+            if (!session()->has('url.intended')) {
+                session(['url.intended' => url()->current()]);
             }
             return redirect()->route('account.login');
         }
+
         session()->forget('url.intended');
-        $id=Auth::user()->id;
+        $id = Auth::user()->id;
 
         $customerAddress = CustomerAddress::where('user_id', $id)->first();
-        $countries=country::orderBY('id','desc')->get();
+        $countries = country::orderBy('id', 'desc')->get();
 
-        //Shipping calculate
+        // Shipping calculate
         $userCountry = $customerAddress->country_id ?? 1;
-        //$userCountry=$customerAddress->country_id;
-        if($userCountry==NULL){
-            $userCountry=1;
+        if ($userCountry == NULL) {
+            $userCountry = 1;
         }
-        $shippingInfo=shipping::where('country_id',$userCountry)->first();
-        // dd($shippingInfo);
-        //shipping charge
-        $totalqty=0;
-        $totalShippingCharges=0;
-        foreach(Cart::content() as $item){
-            $totalqty +=$item->qty;
+
+        $shippingInfo = shipping::where('country_id', $userCountry)->first();
+        if (is_object($shippingInfo) && property_exists($shippingInfo, 'amount')) {
+            $shippingAmount = $shippingInfo->amount;
+        } else {
+            // Handle the case when $shippingInfo is not an object or doesn't have 'amount'
+            $shippingAmount = 100.0; // Default value
         }
-        $totalShippingCharges=$totalqty*$shippingInfo->amount;
-        $grandTotal=Cart::subtotal(2,'.','')+$totalShippingCharges;
-        $data['countries']=$countries;
-        $data['customerAddress']=$customerAddress;
-        $data['totalShippingCharges']=$totalShippingCharges;
-        $data['grandTotal']=$grandTotal;
-        $data['discount']=$discount;
-        return view('Front.checkout',$data);
+
+        // shipping charge
+        $totalqty = 0;
+        foreach (Cart::content() as $item) {
+            $totalqty += $item->qty;
+        }
+
+        $totalShippingCharges = $totalqty * $shippingAmount;
+        $grandTotal = Cart::subtotal(2, '.', '') + $totalShippingCharges;
+
+        $data['countries'] = $countries;
+        $data['customerAddress'] = $customerAddress;
+        $data['totalShippingCharges'] = $totalShippingCharges;
+        $data['grandTotal'] = $grandTotal;
+        $data['discount'] = $discount;
+
+        return view('Front.checkout', $data);
     }
+
 
     public function processCheckout(Request $request){
 

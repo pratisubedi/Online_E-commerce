@@ -22,9 +22,9 @@
 
             <div class="main-content">
                 <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-                <p class="main-content__body" data-lead-id="main-content-body" style="color: green;">Thanks for order.. And Your Order Id is {{$order}} </p>
+                <p class="main-content__body" data-lead-id="main-content-body" style="color: rgba(160, 15, 34, 0.267);"><b style="color: blue"> Thanks for order.. And Your Order Id is <strong style="color: rgb(98, 255, 84)"> {{$order}} </strong></b></p>
             </div>
-            <a href="{{route('Front.home')}}" class="btn-dark btn btn-block w-100">Back to Home</a>
+            <a href="{{route('Front.home')}}" class="btn-dark btn btn-block w-100" style="background-color: red">Back to Home</a>
         </body>
         </html>
 @endsection

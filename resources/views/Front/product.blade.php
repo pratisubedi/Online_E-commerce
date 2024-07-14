@@ -20,9 +20,10 @@
                     <div class="carousel-inner bg-light">
 
                             @if($products->product_images)
+
                                 @foreach ( $products->product_images as $key=>$productImage)
                                     <div class="carousel-item {{($key==0) ? 'active':''}}">
-                                        <img class="w-100 h-100" src="{{asset('uploads/product/large'.$productImage->image)}}" alt="Image">
+                                        <img class="w-100 h-100" src="{{asset('upload/product/small/'.$productImage->image)}}}}" alt="Image">
                                     </div>
                                 @endforeach
                             @endif
@@ -31,12 +32,12 @@
                         {{-- <div class="carousel-item active">
                             <img class="w-100 h-100" src="images/product-2.jpg" alt="Image">
                         </div> --}}
-                        <div class="carousel-item">
+                        {{-- <div class="carousel-item">
                             <img class="w-100 h-100" src="images/product-3.jpg" alt="Image">
                         </div>
                         <div class="carousel-item">
                             <img class="w-100 h-100" src="images/product-4.jpg" alt="Image">
-                        </div>
+                        </div> --}}
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-bs-slide="prev">
                         <i class="fa fa-2x fa-angle-left text-dark"></i>

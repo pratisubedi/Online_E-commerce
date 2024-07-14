@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Laravel Shop :: Administrative Panel</title>
+		<title>Herbs Shopping :: Administrative Panel</title>
 		<!-- Google Font: Source Sans Pro -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 		<!-- Font Awesome -->
@@ -42,7 +42,7 @@
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link p-0 pr-3" data-toggle="dropdown" href="#">
-							<img src="/admin_assets/img/avatar5.png" class='img-circle elevation-2' width="40" height="40" alt="">
+							<img src="/admin_assets/img/shankar.jpg" class='img-circle elevation-2' width="40" height="40" alt="">
 						</a>
 						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
 							<h4 class="h4 mb-0"><strong>{{Auth::guard('admin')->user()->name}}</strong></h4>
@@ -66,13 +66,13 @@
 			<!-- /.navbar -->
 			{{-- @yield('sidebar') --}} @include('admin.layout.sidebar')
 			<!-- Content Wrapper. Contains page content -->
-			<div class="content-wrapper">
+			<div class="content-wrapper" style="background-color: lightgreen">
 				@yield('content')
 			</div>
 			<!-- /.content-wrapper -->
 			<footer class="main-footer">
 
-				<strong>Copyright &copy; 2014-2022 AmazingShop All rights reserved.
+				<strong>Copyright &copy; 2024-2026 Herbs Shops All rights reserved.
 			</footer>
 
 		</div>

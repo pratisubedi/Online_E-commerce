@@ -52,18 +52,5 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
-        // $("#loginForm").submit(function(event){
-        //     event.preventDefault();
-        //     $.ajax({
-        //         url:'',
-        //         type:'post',
-        //         data:$(this).serializeArray(),
-        //         dataType:'json',
-        //         success:function(response){
-        //             var $message=response.success;
-        //             console.log($message);
-        //         },
-        //     });
-        // });
     </script>
 @endsection
