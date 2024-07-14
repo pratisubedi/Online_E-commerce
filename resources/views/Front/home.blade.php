@@ -10,7 +10,7 @@
                     <picture>
                         <source media="(max-width: 799px)" srcset="/Front-assets/images/carousel-1-m.jpg" />
                         <source media="(min-width: 800px)" srcset="/Front-assets/images/carousel-1.jpg" />
-                        <img src="/Front-assets/images/carousel-1.jpg" alt="" />
+                        <img src="/Front-assets/images/carousel-2 -m.jpeg" alt="" />
                     </picture>
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
@@ -24,8 +24,8 @@
                 <div class="carousel-item">
 
                     <picture>
-                        <source media="(max-width: 799px)" srcset="/Front-assets/images/carousel-2-m.jpg" />
-                        <source media="(min-width: 800px)" srcset="/Front-assets/images/carousel-2.jpg" />
+                        <source media="(max-width: 799px)" srcset="/Front-assets/images/carousel-2-m.jpeg" />
+                        <source media="(min-width: 800px)" srcset="/Front-assets/images/carousel-2.jpeg" />
                         <img src="/Front-assets//Front-assets/images/carousel-2.jpg" alt="" />
                     </picture>
 
@@ -65,7 +65,7 @@
             </button>
         </div>
     </section>
-    <section class="section-2">
+    <section class="section-2" style="background-color: lightgreen;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -95,7 +95,7 @@
             </div>
         </div>
     </section>
-    <section class="section-3">
+    <section class="section-3"  >
         <div class="container">
             <div class="section-title">
                 <h2>Categories</h2>
@@ -147,12 +147,23 @@
                                             <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
                                         @endif
                                         {{-- <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a> --}}
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
-
+                                    <a onclick="addTowishList({{$product->id}})" class="whishlist" href="javascript:void(0);"><i class="far fa-heart"></i></a>
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
-                                            <i class="fa fa-shopping-cart"></i> Add To Cart
-                                        </a>
+                                        @if($product->track_qty=='Yes')
+                                            @if ($product->qty>0)
+                                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
+                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                </a>
+                                            @else
+                                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
+                                                    <i class="fa fa-shopping-cart"></i> Out of Stock
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
+                                                <i class="fa fa-shopping-cart"></i> Add To Cart
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="card-body text-center mt-3">
@@ -192,12 +203,24 @@
                                         @else
                                             <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
                                         @endif
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
+                                        <a onclick="addTowishList({{$product->id}})" class="whishlist" href="javascript:void(0);"><i class="far fa-heart"></i></a>
 
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{$product->id}})">
-                                            <i class="fa fa-shopping-cart"></i> Add To Cart
-                                        </a>
+                                        @if($product->track_qty=='Yes')
+                                            @if ($product->qty>0)
+                                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
+                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                </a>
+                                            @else
+                                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
+                                                    <i class="fa fa-shopping-cart"></i> Out of Stock
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{$product->id}})">
+                                                <i class="fa fa-shopping-cart"></i> Add To Cart
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="card-body text-center mt-3">

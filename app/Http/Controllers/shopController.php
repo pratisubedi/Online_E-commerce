@@ -54,6 +54,7 @@ class shopController extends Controller
                     $products = $products->whereBetween('price', [intval($request->get('price_min')), intval($request->get('price_max'))]);
                 }
             }
+
             // Applying filter on sorting
             if($request->get('sort')) {
                 if($request->get('sort')=='latest'){
@@ -65,6 +66,12 @@ class shopController extends Controller
                 else{
                     $products = $products->orderBy('id','DESC');
                 }
+            }
+
+            //Search functionality in home page
+
+            if(!empty($request->get('search'))){
+                $products=$products->where('title','like','%'.$request->get('search').'%');
             }
             $products=$products->paginate(4);
             // Order products by ID in descending order

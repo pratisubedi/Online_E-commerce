@@ -7,8 +7,15 @@
     <title>Order Email</title>
 </head>
 <body>
-    <h1 style="color: red;">Thanks for your order!!! </h1>
-    <h2>Your order Id is: #{{$mailData['order']->id}}</h2>
+    @if ($mailData['userType']=='customer')
+        <h1 style="color: red;">Thanks for your order!!! </h1>
+        <h2>Your order Id is: #{{$mailData['order']->id}}</h2>
+    @else
+        <h1 style="color: red;">You have a recevied an order. </h1>
+        <h2>Recevied order Id is: #{{$mailData['order']->id}}</h2>
+        <h2> order Id is: #{{$mailData['order']->id}}</h2>
+    @endif
+
     <h2 style="color: green">Products</h2>
     <table class="table table-striped">
         <thead>

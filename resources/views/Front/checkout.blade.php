@@ -170,9 +170,8 @@
                                 <input checked type="radio" name="payment_method" value="cod" id="payment_method_one">
                                 <label for="payment_method_one" class="form-check-label">Cash on Delivery</label>
                             </div>
-                            <div class="">
-                                <input type="radio" name="payment_method" value="cod" id="payment_method_two">
-                                <label for="payment_method_two" class="form-check-label">Visa Card </label>
+                            <div class="mt-3">
+                                <button id="payment-button">Pay with Khalti</button>
                             </div>
                             <div class="card-body p-0 d-none mt-3" id="card-payment-form">
                                 <div class="mb-3">
@@ -207,6 +206,41 @@
 </section>
 @endsection
 @section('customJs')
+<script>
+    var config = {
+        // replace the publicKey with yours
+        "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+        "productIdentity": "1234567890",
+        "productName": "Dragon",
+        "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+        "paymentPreference": [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+            ],
+        "eventHandler": {
+            onSuccess (payload) {
+                // hit merchant api for initiating verfication
+                console.log(payload);
+            },
+            onError (error) {
+                console.log(error);
+            },
+            onClose () {
+                console.log('widget is closing');
+            }
+        }
+    };
+
+    var checkout = new KhaltiCheckout(config);
+    var btn = document.getElementById("payment-button");
+    btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({amount: 1000});
+    }
+</script>
     <script type="text/javascript">
 
     //discoount coupons apply

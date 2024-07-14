@@ -148,7 +148,11 @@ class cartController extends Controller
         $countries=country::orderBY('id','desc')->get();
 
         //Shipping calculate
-        $userCountry=$customerAddress->country_id;
+        $userCountry = $customerAddress->country_id ?? 1;
+        //$userCountry=$customerAddress->country_id;
+        if($userCountry==NULL){
+            $userCountry=1;
+        }
         $shippingInfo=shipping::where('country_id',$userCountry)->first();
         // dd($shippingInfo);
         //shipping charge
@@ -275,9 +279,20 @@ class cartController extends Controller
                     $orderItem->price=$item->price;
                     $orderItem->total= $item->total;
                     $orderItem->save();
+
+
+                    //update product stock
+                    $productData=Product::find($item->id);
+                    if($productData->track_qty=='Yes'){
+                        $currentQty=$productData->qty;
+                        $updatedQty=$currentQty-$item->qty;
+                        $productData->qty=$updatedQty;
+                        $productData->update();
+                    }
+
                 }
                 // send order email
-                app('App\Helpers\Helper')->orderEmail($order->id);
+                app('App\Helpers\Helper')->orderEmail($order->id,'customer');
                 //app('App\Mail')->orderEmail($order->id);
                 Cart::destroy();
                 Session::forget('code');

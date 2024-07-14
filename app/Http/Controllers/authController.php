@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\order;
 use App\Models\orderItem;
 use App\Models\User;
+use App\Models\wishlist;
 use Illuminate\Http\Request;
 use Validator;
+use Hash;
 use  Illuminate\Support\Facades\Auth;
 class authController extends Controller
 {
@@ -68,7 +70,9 @@ class authController extends Controller
         }
     }
     public function profile(){
-        return view('Front.Account.profile');
+        $profileInformations=User::where('id',Auth::user()->id)->first();
+        $data['profileInformations']=$profileInformations;
+        return view('Front.Account.profile',$data);
     }
 
     public function logout(){
@@ -91,5 +95,94 @@ class authController extends Controller
         $data['orderItems']=$orderItems;
         $data['orders']= $orders;
         return view('Front.account.order-detail', $data);
+    }
+
+    public function wishList(){
+
+        $wishlists=wishlist::where('user_id',Auth::user()->id)->with('product')->get();
+
+        $data=[];
+        $data['wishlists']=$wishlists;
+        return view('Front.account.wishlist',$data);
+    }
+
+    public function removeProductWishlist(Request $request){
+        $wishlistProduct=wishlist::where('user_id',Auth::user()->id)->where('product_id',$request->id)->first();
+        if($wishlistProduct==null){
+            session()->flash('error','Product already removed.');
+            return response()->json([
+                'status'=>true,
+            ]);
+        }else{
+            $wishlistProduct=wishlist::where('user_id',Auth::user()->id)->where('product_id',$request->id)->delete();
+            session()->flash('success','Product removed successfully from wishlist.');
+            return response()->json([
+                'status'=>true,
+            ]);
+        }
+    }
+
+    public function profileUpdate(Request $request){
+        $userId=Auth::user()->id;
+        $validator=Validator::make($request->all(),[
+            'name'=>'required',
+            'email'=>'required|email|unique:users,email,'.$userId.',id',
+            'phone'=>'required'
+        ]);
+
+        if($validator->passes()){
+            $id=Auth::user()->id;
+            $user=User::where('id',$id)->first();
+            $user->name=$request->name;
+            $user->email=$request->email;
+            $user->phone=$request->phone;
+            $user->update();
+
+            session()->flash('success','Profile update successfully');
+            return response()->json([
+                'status'=>true,
+                'message'=>'user profile update successfully.',
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'errors'=>$validator->errors(),
+            ]);
+        }
+    }
+
+    public function showchangePassword(){
+        return view('Front.Account.changePassword');
+    }
+
+    public function changePassword(Request $request){
+        $validator=validator::make($request->all(),[
+            'old_password'=>'required',
+            'new_password'=>'required|min:3|same:confirm_password',
+            'confirm_password'=>'required',
+        ]);
+
+        if($validator->passes()){
+            $user=User::select('id','password')->where('id',Auth::user()->id)->first();
+            if(!Hash::check($request->old_password, $user->password)){
+                session()->flash('error','Your old password is incorrect, please try again.');
+                return response()->json([
+                    'status'=>true,
+                ]);
+            }
+            User::where('id',$user->id)->update([
+                'password'=>Hash::make($request->new_password),
+            ]);
+
+            session()->flash('success','You have successfully changed your password');
+            return response()->json([
+                'status'=>true,
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'errors'=>$validator->errors(),
+            ]);
+        }
     }
 }

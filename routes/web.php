@@ -9,8 +9,10 @@ use App\Http\Controllers\admin\orderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategory;
 use App\Http\Controllers\admin\shippingController;
+use App\Http\Controllers\admin\staticPagesController;
 use App\Http\Controllers\admin\sub_category;
 use App\Http\Controllers\admin\TempImagesController;
+use App\Http\Controllers\admin\userController;
 use App\Http\Controllers\cartController;
 use App\Http\Controllers\frontController;
 use App\Http\Controllers\shopController;
@@ -48,10 +50,15 @@ Route::post('/delete-cart',[cartController::class,'deleteCart'])->name('Front.de
 Route::get('/checkout',[cartController::class,'checkout'])->name('Front.checkout');
 Route::post('/process-checkout',[cartController::class,'processCheckout'])->name('Front.processCheckout');
 Route::get('/thank/{orderId}',[cartController::class,'thankYou'])->name('Front.thank');
+Route::get('/page/{slug}',[frontController::class,'page'])->name('front.page');
 
 //apply discount coupons Route
 Route::post('/apply-discount',[cartController::class,'applyDiscount'])->name('front.applyDiscount');
 Route::post('/remov-coupons',[cartController::class,'removeCoupons'])->name('front.remove-coupons');
+
+//Routet for wishList
+//Route::post('/add-to-whishList/{productId}',[frontController::class,'addToWishList'])->name('front.addToWishlist');
+Route::post('/add-to-whishList}',[frontController::class,'addToWishList'])->name('front.addToWishlist');
 
 // Route for user account
 //Route::get('/logout',[authController::class,'logout'])->name('account.logout');
@@ -70,6 +77,11 @@ Route::group(['prefix'=>'account'],function(){
         Route::get('/profile',[authController::class,'profile'])->name('account.profile');
         Route::get('/myorder',[authController::class,'order'])->name('account.myOrder');
         Route::get('/order-detail/{orderId}',[authController::class,'order_detail'])->name('account.order_detail');
+        Route::get('/my-wishlist',[authController::class,'wishList'])->name('account.wishlist');
+        Route::post('/remove-wishlist',[authController::class,'removeProductWishlist'])->name('account.removeProductWishlist');
+        Route::post('/profile-update',[authController::class,'profileUpdate'])->name('account.profileupdate');
+        Route::get('/change-password',[authController::class,'showchangePassword'])->name('account.showchangePassword');
+        Route::post('/change-password',[authController::class,'changePassword'])->name('account.changePassword');
     });
 });
 
@@ -143,6 +155,21 @@ Route::group(['prefix'=> 'admin'], function () {
         //send InvoiceEmail route
         Route::post('/sendInvoiceEmail/{orderId}',[orderController::class,'sendInvoiceEmail'])->name('order.sendInvoiceEmail');
 
+        //user list and edit route
+        Route::get('/user-list',[userController::class,'index'])->name('users.list');
+        Route::get('/user-create',[userController::class,'create'])->name('users.create');
+        Route::post('/user-store',[userController::class,'store'])->name('users.store');
+        Route::get('/user-edit/{id}',[userController::class,'edit'])->name('users.edit');
+        Route::put('/user-update/{id}',[userController::class,'updateUser'])->name('users.updateUser');
+        Route::delete('/user-delete/{id}',[userController::class,'deleteUser'])->name('users.delete');
+
+        //Static pages route
+        Route::get('/static-Pages',[staticPagesController::class,'index'])->name('staticPage.index');
+        Route::get('/static-pages-create',[staticPagesController::class,'create'])->name('staticPage.create');
+        Route::post('/static-pages-create',[staticPagesController::class,'store'])->name('staticPage.store');
+        Route::get('/static-pages-edit/{id}',[staticPagesController::class,'edit'])->name('staticPage.edit');
+        Route::put('/static-pages-update/{id}',[staticPagesController::class,'update'])->name('staticPage.update');
+        Route::delete('/static-pages-delete/{id}',[staticPagesController::class,'destroy'])->name('staticPage.destory');
 
         //temp-image.create
         Route::post('/upload-temp-image',[TempImagesController::class,'create'])->name('temp-image.create');
