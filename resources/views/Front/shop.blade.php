@@ -105,13 +105,13 @@
                     </div>
                     @if($products->isNotEmpty())
                         @foreach($products as $product)
-                            {{-- @php
+                            @php
                                $productImage=$product->product_images->first();
-                            @endphp --}}
+                            @endphp
                                 <div class="col-md-4">
                                         <div class="card product-card">
                                                 <div class="product-image position-relative">
-                                                    <a href="" class="product-img"><img class="card-img-top" src="images/product-1.jpg" alt=""></a>
+                                                    <a href="" class="product-img"><img class="card-img-top" src="{{asset('upload/product/small/'.$productImage->image)}}" alt=""></a>
                                                     <a onclick="addTowishList({{$product->id}})" class="whishlist" href="javascript:void(0);"><i class="far fa-heart"></i></a>
 
                                                     <div class="product-action">

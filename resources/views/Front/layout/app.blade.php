@@ -53,8 +53,9 @@
 		<div class="row align-items-center py-3 d-none d-lg-flex justify-content-between">
 			<div class="col-lg-4 logo">
 				<a href="index.php" class="text-decoration-none">
-					<span class="h1 text-uppercase text-primary bg-dark px-2">Online</span>
-					<span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">SHOP</span>
+                    <img src="/admin_assets/img/Logo.png" alt="" style="width: 200px; height: auto;">
+					{{-- <span class="h1 text-uppercase text-primary bg-dark px-2">Online</span>
+					<span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">SHOP</span> --}}
 				</a>
 			</div>
 			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
@@ -80,8 +81,9 @@
 	<div class="container">
 		<nav class="navbar navbar-expand-xl" id="navbar">
 			<a href="{{route('Front.home')}}" class="text-decoration-none mobile-logo">
-				<span class="h2 text-uppercase text-primary bg-dark">Online</span>
-				<span class="h2 text-uppercase text-white px-2">SHOP</span>
+                <img src="/admin_assets/img/Logo.png" alt="" srcset="">
+				{{-- <span class="h2 text-uppercase text-primary bg-dark">Online</span>
+				<span class="h2 text-uppercase text-white px-2">SHOP</span> --}}
 			</a>
 			<button class="navbar-toggler menu-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       			<!-- <span class="navbar-toggler-icon icon-menu"></span> -->
@@ -115,54 +117,17 @@
 					</li>
                     @endforeach
                     @endif
-					{{-- <li class="nav-item dropdown">
-						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-							Men's Fashion
-						</button>
-						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a class="dropdown-item" href="#">Shirts</a></li>
-							<li><a class="dropdown-item" href="#">Jeans</a></li>
-							<li><a class="dropdown-item" href="#">Shoes</a></li>
-							<li><a class="dropdown-item" href="#">Watches</a></li>
-							<li><a class="dropdown-item" href="#">Perfumes</a></li>
-						</ul>
-					</li>
-					<li class="nav-item dropdown">
-						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-							Women's Fashion
-						</button>
-						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a class="dropdown-item" href="#">T-Shirts</a></li>
-							<li><a class="dropdown-item" href="#">Tops</a></li>
-							<li><a class="dropdown-item" href="#">Jeans</a></li>
-							<li><a class="dropdown-item" href="#">Shoes</a></li>
-							<li><a class="dropdown-item" href="#">Watches</a></li>
-							<li><a class="dropdown-item" href="#">Perfumes</a></li>
-						</ul>
-					</li>
-
-					<li class="nav-item dropdown">
-						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-							Appliances
-						</button>
-						<ul class="dropdown-menu dropdown-menu-dark">
-							<li><a class="dropdown-item" href="#">TV</a></li>
-							<li><a class="dropdown-item" href="#">Washing Machines</a></li>
-							<li><a class="dropdown-item" href="#">Air Conditioners</a></li>
-							<li><a class="dropdown-item" href="#">Vacuum Cleaner</a></li>
-							<li><a class="dropdown-item" href="#">Fans</a></li>
-							<li><a class="dropdown-item" href="#">Air Coolers</a></li>
-						</ul>
-					</li>
-					 --}}
 
       			</ul>
       		</div>
-			<div class="right-nav py-0">
-				<a href="{{route('Front.cart')}}" class="ml-3 d-flex pt-2">
-					<i class="fas fa-shopping-cart text-primary"></i>
-				</a>
-			</div>
+              <div class="right-nav py-0">
+                <a href="{{ route('Front.cart') }}" class="ml-3 d-flex pt-2 align-items-center">
+                    <i class="fas fa-shopping-cart text-primary"></i>
+                    <span class="ml-2"></span>
+                    <span class="cart-count ml-2">{{ Cart::count() }}</span>
+                </a>
+            </div>
+
       	</nav>
   	</div>
 </header>
@@ -175,9 +140,9 @@
 			<div class="col-md-4">
 				<div class="footer-card">
 					<h3>Get In Touch</h3>
-					<p>No dolore ipsum accusam no lorem. <br>
-					123 Street, New York, USA <br>
-					exampl@example.com <br>
+					<p>Shankar Subedi <br>
+					Pokhara 17,Birauta <br>
+					Pratiksubedi9898@gmail.com <br>
 					000 000 0000</p>
 				</div>
 			</div>
@@ -217,7 +182,7 @@
 			<div class="row">
 				<div class="col-12 mt-3">
 					<div class="copy-right text-center">
-						<p>© Copyright 2022 Amazing Shop. All Rights Reserved</p>
+						<p>© Copyright 2024 Herbs Shop. All Rights Reserved</p>
 					</div>
 				</div>
 			</div>

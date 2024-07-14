@@ -15,8 +15,8 @@
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                            <h1 class="display-4 text-white mb-3">Vegitables, Fruits and Herbs</h1>
+                            <p class="mx-md-5 px-5">Fresh Herbs, Delivered to Your Doorstep</p>
                             <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{route('Front.shop')}}">Shop Now</a>
                         </div>
                     </div>
@@ -48,8 +48,8 @@
 
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3">
-                            <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes</h1>
-                            <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                            <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Local Fruits and Vegitables</h1>
+                            {{-- <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p> --}}
                             <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                                     @endphp
                                     <a href="{{route('front.product',$product->slug)}}" class="product-img">
                                         @if (!empty($productImage->image))
-                                            <img class="card-img-top" src="{{asset('upload/product/large/'.$productImage->image)}}" class="img-thumbnail" width="50" >
+                                            <img class="card-img-top" src="{{asset('upload/product/small/'.$productImage->image)}}" class="img-thumbnail" width="50" >
                                         @else
                                             <img class="card-img-top" src="/Front-assets/images/product-1.jpg" alt=""></a>
                                         @endif
